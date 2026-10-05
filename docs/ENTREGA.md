@@ -11,7 +11,7 @@
 | Swagger | /docs e docs/openapi.json | Incluído |
 | Testes | tests/ | Incluídos e executados |
 | LLM | services/llm.py e /ia/relatorio | Integração pronta, geração real pendente |
-| Trello/Notion | TRELLO.md e docs/QUADRO_CP2.csv | Quadro online pendente |
+| Trello/Notion | https://trello.com/b/x4UExcxZ/trello-cp | Publicado |
 | Apresentação | APRESENTACAO_CP2.pptx e docs/ROTEIRO.md | Incluída |
 
 O PDF identifica atividade em grupo e data prevista 06/10.
