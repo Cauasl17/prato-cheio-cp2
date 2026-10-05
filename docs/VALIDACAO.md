@@ -8,7 +8,7 @@ FK/exclusão, autenticação, dashboard, concorrência, Swagger e persistência.
 
 A LLM usa serviço simulado em teste de contrato. A indisponibilidade real retorna 503.
 A geração com o modelo local ainda precisa de demonstração. O repositório GitHub foi publicado.
-O quadro Trello/Notion ainda está pendente.
+Quadro Trello publicado: https://trello.com/b/x4UExcxZ/trello-cp
 
 A entrega da interface e arquivos estáticos passou nos testes HTTP e o JavaScript passou na
 checagem de sintaxe com node --check. A inspeção visual do frontend no navegador ainda precisa ser realizada.
