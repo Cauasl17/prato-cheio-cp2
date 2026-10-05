@@ -1,0 +1,2261 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "Prato Cheio API",
+    "description": "API que conecta o alimento que sobra em padarias, mercados e restaurantes com ONGs e casas de apoio, antes que ele estrague.\n\nFluxo do sistema:\n1. O doador cadastra uma doacao\n2. A instituicao ve as doacoes disponiveis\n3. A instituicao faz uma reserva\n4. Na retirada, a coleta e registrada",
+    "version": "2.0.0"
+  },
+  "paths": {
+    "/doadores": {
+      "get": {
+        "tags": [
+          "Doadores"
+        ],
+        "summary": "Listar doadores",
+        "operationId": "listar_doadores_get",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "pagina",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "default": 1,
+              "title": "Pagina"
+            }
+          },
+          {
+            "name": "limite",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "maximum": 100,
+              "minimum": 1,
+              "default": 20,
+              "title": "Limite"
+            }
+          },
+          {
+            "name": "cidade",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Cidade"
+            }
+          },
+          {
+            "name": "ativo",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "boolean"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Ativo"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ListaDoadores"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Doadores"
+        ],
+        "summary": "Cadastrar doador",
+        "operationId": "criar_doadores_post",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DoadorCriar"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DoadorResposta"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/doadores/{doador_id}": {
+      "get": {
+        "tags": [
+          "Doadores"
+        ],
+        "summary": "Buscar um doador",
+        "operationId": "buscar_doadores__doador_id__get",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "doador_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "title": "Doador Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DoadorResposta"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Doadores"
+        ],
+        "summary": "Atualizar doador",
+        "operationId": "atualizar_doadores__doador_id__put",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "doador_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "title": "Doador Id"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DoadorAtualizar"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DoadorResposta"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Doadores"
+        ],
+        "summary": "Excluir doador",
+        "operationId": "deletar_doadores__doador_id__delete",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "doador_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "title": "Doador Id"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Successful Response"
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/instituicoes": {
+      "get": {
+        "tags": [
+          "Instituicoes"
+        ],
+        "summary": "Listar instituicoes",
+        "operationId": "listar_instituicoes_get",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "pagina",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "default": 1,
+              "title": "Pagina"
+            }
+          },
+          {
+            "name": "limite",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "maximum": 100,
+              "minimum": 1,
+              "default": 20,
+              "title": "Limite"
+            }
+          },
+          {
+            "name": "cidade",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Cidade"
+            }
+          },
+          {
+            "name": "possui_refrigeracao",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "boolean"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Possui Refrigeracao"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ListaInstituicoes"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Instituicoes"
+        ],
+        "summary": "Cadastrar instituicao",
+        "operationId": "criar_instituicoes_post",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/InstituicaoCriar"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InstituicaoResposta"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/instituicoes/{instituicao_id}": {
+      "get": {
+        "tags": [
+          "Instituicoes"
+        ],
+        "summary": "Buscar uma instituicao",
+        "operationId": "buscar_instituicoes__instituicao_id__get",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "instituicao_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "title": "Instituicao Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InstituicaoResposta"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Instituicoes"
+        ],
+        "summary": "Atualizar instituicao",
+        "operationId": "atualizar_instituicoes__instituicao_id__put",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "instituicao_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "title": "Instituicao Id"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/InstituicaoAtualizar"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InstituicaoResposta"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Instituicoes"
+        ],
+        "summary": "Excluir instituicao",
+        "operationId": "deletar_instituicoes__instituicao_id__delete",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "instituicao_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "title": "Instituicao Id"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Successful Response"
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/doacoes": {
+      "get": {
+        "tags": [
+          "Doacoes"
+        ],
+        "summary": "Listar doacoes",
+        "operationId": "listar_doacoes_get",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "pagina",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "default": 1,
+              "title": "Pagina"
+            }
+          },
+          {
+            "name": "limite",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "maximum": 100,
+              "minimum": 1,
+              "default": 20,
+              "title": "Limite"
+            }
+          },
+          {
+            "name": "status",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Status"
+            }
+          },
+          {
+            "name": "categoria",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Categoria"
+            }
+          },
+          {
+            "name": "apenas_disponiveis",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "boolean",
+              "default": false,
+              "title": "Apenas Disponiveis"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ListaDoacoes"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Doacoes"
+        ],
+        "summary": "Cadastrar doacao",
+        "operationId": "criar_doacoes_post",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DoacaoCriar"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DoacaoResposta"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/doacoes/{doacao_id}": {
+      "get": {
+        "tags": [
+          "Doacoes"
+        ],
+        "summary": "Buscar uma doacao",
+        "operationId": "buscar_doacoes__doacao_id__get",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "doacao_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "title": "Doacao Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DoacaoResposta"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Doacoes"
+        ],
+        "summary": "Atualizar doacao",
+        "operationId": "atualizar_doacoes__doacao_id__put",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "doacao_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "title": "Doacao Id"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DoacaoAtualizar"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DoacaoResposta"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Doacoes"
+        ],
+        "summary": "Excluir doacao",
+        "operationId": "deletar_doacoes__doacao_id__delete",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "doacao_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "title": "Doacao Id"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Successful Response"
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/doacoes/{doacao_id}/cancelar": {
+      "patch": {
+        "tags": [
+          "Doacoes"
+        ],
+        "summary": "Cancelar doacao",
+        "operationId": "cancelar_doacoes__doacao_id__cancelar_patch",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "doacao_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "title": "Doacao Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DoacaoResposta"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/reservas": {
+      "get": {
+        "tags": [
+          "Reservas"
+        ],
+        "summary": "Listar reservas",
+        "operationId": "listar_reservas_get",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "pagina",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "default": 1,
+              "title": "Pagina"
+            }
+          },
+          {
+            "name": "limite",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "maximum": 100,
+              "minimum": 1,
+              "default": 20,
+              "title": "Limite"
+            }
+          },
+          {
+            "name": "status",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Status"
+            }
+          },
+          {
+            "name": "doacao_id",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "integer"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Doacao Id"
+            }
+          },
+          {
+            "name": "instituicao_id",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "integer"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Instituicao Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ListaReservas"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Reservas"
+        ],
+        "summary": "Criar reserva",
+        "operationId": "criar_reservas_post",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ReservaCriar"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ReservaResposta"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/reservas/{reserva_id}": {
+      "get": {
+        "tags": [
+          "Reservas"
+        ],
+        "summary": "Buscar uma reserva",
+        "operationId": "buscar_reservas__reserva_id__get",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "reserva_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "title": "Reserva Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ReservaResposta"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Reservas"
+        ],
+        "summary": "Cancelar reserva",
+        "operationId": "cancelar_reservas__reserva_id__delete",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "reserva_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "title": "Reserva Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ReservaResposta"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/reservas/{reserva_id}/coletar": {
+      "patch": {
+        "tags": [
+          "Reservas"
+        ],
+        "summary": "Registrar coleta",
+        "operationId": "coletar_reservas__reserva_id__coletar_patch",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "reserva_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "title": "Reserva Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ReservaResposta"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/dashboard": {
+      "get": {
+        "tags": [
+          "Dashboard e IA"
+        ],
+        "summary": "Indicadores e alertas calculados no banco",
+        "operationId": "dashboard_dashboard_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ]
+      }
+    },
+    "/ia/status": {
+      "get": {
+        "tags": [
+          "Dashboard e IA"
+        ],
+        "summary": "Verificar o serviço e o modelo configurado",
+        "operationId": "ia_status_ia_status_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ]
+      }
+    },
+    "/ia/relatorio": {
+      "post": {
+        "tags": [
+          "Dashboard e IA"
+        ],
+        "summary": "Gerar relatório por LLM com indicadores reais",
+        "operationId": "relatorio_ia_relatorio_post",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "503": {
+            "description": "Ollama ou modelo indisponível"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ]
+      }
+    },
+    "/ia/relatorios": {
+      "get": {
+        "tags": [
+          "Dashboard e IA"
+        ],
+        "summary": "Últimos 20 relatórios gerados",
+        "operationId": "historico_ia_relatorios_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/RelatorioSaida"
+                  },
+                  "type": "array",
+                  "title": "Response Historico Ia Relatorios Get"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ]
+      }
+    },
+    "/": {
+      "get": {
+        "tags": [
+          "Inicio"
+        ],
+        "summary": "Informacoes da API",
+        "operationId": "inicio__get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Categoria": {
+        "type": "string",
+        "enum": [
+          "HORTIFRUTI",
+          "PANIFICACAO",
+          "LATICINIOS",
+          "NAO_PERECIVEL",
+          "PRONTO_CONSUMO",
+          "OUTROS"
+        ],
+        "title": "Categoria"
+      },
+      "DoacaoAtualizar": {
+        "properties": {
+          "descricao": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 200,
+                "minLength": 1
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Descricao"
+          },
+          "categoria": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/Categoria"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "quantidade_total": {
+            "anyOf": [
+              {
+                "type": "number",
+                "exclusiveMinimum": 0.0
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Quantidade Total"
+          },
+          "data_validade": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Data Validade"
+          },
+          "local_retirada": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 200,
+                "minLength": 1
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Local Retirada"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "title": "DoacaoAtualizar"
+      },
+      "DoacaoCriar": {
+        "properties": {
+          "doador_id": {
+            "type": "integer",
+            "exclusiveMinimum": 0.0,
+            "title": "Doador Id"
+          },
+          "descricao": {
+            "type": "string",
+            "maxLength": 200,
+            "minLength": 1,
+            "title": "Descricao"
+          },
+          "categoria": {
+            "$ref": "#/components/schemas/Categoria"
+          },
+          "tipo_armazenamento": {
+            "$ref": "#/components/schemas/TipoArmazenamento"
+          },
+          "unidade": {
+            "$ref": "#/components/schemas/Unidade"
+          },
+          "quantidade_total": {
+            "type": "number",
+            "exclusiveMinimum": 0.0,
+            "title": "Quantidade Total"
+          },
+          "data_validade": {
+            "type": "string",
+            "format": "date",
+            "title": "Data Validade"
+          },
+          "local_retirada": {
+            "type": "string",
+            "maxLength": 200,
+            "minLength": 1,
+            "title": "Local Retirada"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "doador_id",
+          "descricao",
+          "categoria",
+          "tipo_armazenamento",
+          "unidade",
+          "quantidade_total",
+          "data_validade",
+          "local_retirada"
+        ],
+        "title": "DoacaoCriar"
+      },
+      "DoacaoResposta": {
+        "properties": {
+          "id": {
+            "type": "integer",
+            "title": "Id"
+          },
+          "doador_id": {
+            "type": "integer",
+            "exclusiveMinimum": 0.0,
+            "title": "Doador Id"
+          },
+          "descricao": {
+            "type": "string",
+            "maxLength": 200,
+            "minLength": 1,
+            "title": "Descricao"
+          },
+          "categoria": {
+            "type": "string",
+            "title": "Categoria"
+          },
+          "tipo_armazenamento": {
+            "type": "string",
+            "title": "Tipo Armazenamento"
+          },
+          "unidade": {
+            "type": "string",
+            "title": "Unidade"
+          },
+          "quantidade_total": {
+            "type": "number",
+            "exclusiveMinimum": 0.0,
+            "title": "Quantidade Total"
+          },
+          "quantidade_reservada": {
+            "type": "number",
+            "title": "Quantidade Reservada"
+          },
+          "data_validade": {
+            "type": "string",
+            "format": "date",
+            "title": "Data Validade"
+          },
+          "local_retirada": {
+            "type": "string",
+            "maxLength": 200,
+            "minLength": 1,
+            "title": "Local Retirada"
+          },
+          "status": {
+            "type": "string",
+            "title": "Status"
+          },
+          "criado_em": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Criado Em"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "doador_id",
+          "descricao",
+          "categoria",
+          "tipo_armazenamento",
+          "unidade",
+          "quantidade_total",
+          "quantidade_reservada",
+          "data_validade",
+          "local_retirada",
+          "status",
+          "criado_em"
+        ],
+        "title": "DoacaoResposta"
+      },
+      "DoadorAtualizar": {
+        "properties": {
+          "nome": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 100,
+                "minLength": 1
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Nome"
+          },
+          "tipo": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/TipoDoador"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "email": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "email"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Email"
+          },
+          "telefone": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 20,
+                "minLength": 1
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Telefone"
+          },
+          "cidade": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 50,
+                "minLength": 1
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Cidade"
+          },
+          "ativo": {
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Ativo"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "title": "DoadorAtualizar"
+      },
+      "DoadorCriar": {
+        "properties": {
+          "cnpj": {
+            "type": "string",
+            "maxLength": 20,
+            "minLength": 1,
+            "title": "Cnpj"
+          },
+          "nome": {
+            "type": "string",
+            "maxLength": 100,
+            "minLength": 1,
+            "title": "Nome"
+          },
+          "tipo": {
+            "$ref": "#/components/schemas/TipoDoador"
+          },
+          "email": {
+            "type": "string",
+            "format": "email",
+            "title": "Email"
+          },
+          "telefone": {
+            "type": "string",
+            "maxLength": 20,
+            "minLength": 1,
+            "title": "Telefone"
+          },
+          "cidade": {
+            "type": "string",
+            "maxLength": 50,
+            "minLength": 1,
+            "title": "Cidade"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "cnpj",
+          "nome",
+          "tipo",
+          "email",
+          "telefone",
+          "cidade"
+        ],
+        "title": "DoadorCriar"
+      },
+      "DoadorResposta": {
+        "properties": {
+          "id": {
+            "type": "integer",
+            "title": "Id"
+          },
+          "cnpj": {
+            "type": "string",
+            "maxLength": 20,
+            "minLength": 1,
+            "title": "Cnpj"
+          },
+          "nome": {
+            "type": "string",
+            "maxLength": 100,
+            "minLength": 1,
+            "title": "Nome"
+          },
+          "tipo": {
+            "type": "string",
+            "title": "Tipo"
+          },
+          "email": {
+            "type": "string",
+            "format": "email",
+            "title": "Email"
+          },
+          "telefone": {
+            "type": "string",
+            "maxLength": 20,
+            "minLength": 1,
+            "title": "Telefone"
+          },
+          "cidade": {
+            "type": "string",
+            "maxLength": 50,
+            "minLength": 1,
+            "title": "Cidade"
+          },
+          "ativo": {
+            "type": "boolean",
+            "title": "Ativo"
+          },
+          "criado_em": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Criado Em"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "cnpj",
+          "nome",
+          "tipo",
+          "email",
+          "telefone",
+          "cidade",
+          "ativo",
+          "criado_em"
+        ],
+        "title": "DoadorResposta"
+      },
+      "HTTPValidationError": {
+        "properties": {
+          "detail": {
+            "items": {
+              "$ref": "#/components/schemas/ValidationError"
+            },
+            "type": "array",
+            "title": "Detail"
+          }
+        },
+        "type": "object",
+        "title": "HTTPValidationError"
+      },
+      "InstituicaoAtualizar": {
+        "properties": {
+          "nome": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 100,
+                "minLength": 1
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Nome"
+          },
+          "responsavel": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 100,
+                "minLength": 1
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Responsavel"
+          },
+          "email": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "email"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Email"
+          },
+          "telefone": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 20,
+                "minLength": 1
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Telefone"
+          },
+          "cidade": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 50,
+                "minLength": 1
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Cidade"
+          },
+          "possui_refrigeracao": {
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Possui Refrigeracao"
+          },
+          "ativo": {
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Ativo"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "title": "InstituicaoAtualizar"
+      },
+      "InstituicaoCriar": {
+        "properties": {
+          "cnpj": {
+            "type": "string",
+            "maxLength": 20,
+            "minLength": 1,
+            "title": "Cnpj"
+          },
+          "nome": {
+            "type": "string",
+            "maxLength": 100,
+            "minLength": 1,
+            "title": "Nome"
+          },
+          "responsavel": {
+            "type": "string",
+            "maxLength": 100,
+            "minLength": 1,
+            "title": "Responsavel"
+          },
+          "email": {
+            "type": "string",
+            "format": "email",
+            "title": "Email"
+          },
+          "telefone": {
+            "type": "string",
+            "maxLength": 20,
+            "minLength": 1,
+            "title": "Telefone"
+          },
+          "cidade": {
+            "type": "string",
+            "maxLength": 50,
+            "minLength": 1,
+            "title": "Cidade"
+          },
+          "possui_refrigeracao": {
+            "type": "boolean",
+            "title": "Possui Refrigeracao",
+            "default": false
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "cnpj",
+          "nome",
+          "responsavel",
+          "email",
+          "telefone",
+          "cidade"
+        ],
+        "title": "InstituicaoCriar"
+      },
+      "InstituicaoResposta": {
+        "properties": {
+          "id": {
+            "type": "integer",
+            "title": "Id"
+          },
+          "cnpj": {
+            "type": "string",
+            "maxLength": 20,
+            "minLength": 1,
+            "title": "Cnpj"
+          },
+          "nome": {
+            "type": "string",
+            "maxLength": 100,
+            "minLength": 1,
+            "title": "Nome"
+          },
+          "responsavel": {
+            "type": "string",
+            "maxLength": 100,
+            "minLength": 1,
+            "title": "Responsavel"
+          },
+          "email": {
+            "type": "string",
+            "format": "email",
+            "title": "Email"
+          },
+          "telefone": {
+            "type": "string",
+            "maxLength": 20,
+            "minLength": 1,
+            "title": "Telefone"
+          },
+          "cidade": {
+            "type": "string",
+            "maxLength": 50,
+            "minLength": 1,
+            "title": "Cidade"
+          },
+          "possui_refrigeracao": {
+            "type": "boolean",
+            "title": "Possui Refrigeracao"
+          },
+          "ativo": {
+            "type": "boolean",
+            "title": "Ativo"
+          },
+          "criado_em": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Criado Em"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "cnpj",
+          "nome",
+          "responsavel",
+          "email",
+          "telefone",
+          "cidade",
+          "possui_refrigeracao",
+          "ativo",
+          "criado_em"
+        ],
+        "title": "InstituicaoResposta"
+      },
+      "ListaDoacoes": {
+        "properties": {
+          "total": {
+            "type": "integer",
+            "title": "Total"
+          },
+          "pagina": {
+            "type": "integer",
+            "title": "Pagina"
+          },
+          "itens": {
+            "items": {
+              "$ref": "#/components/schemas/DoacaoResposta"
+            },
+            "type": "array",
+            "title": "Itens"
+          }
+        },
+        "type": "object",
+        "required": [
+          "total",
+          "pagina",
+          "itens"
+        ],
+        "title": "ListaDoacoes"
+      },
+      "ListaDoadores": {
+        "properties": {
+          "total": {
+            "type": "integer",
+            "title": "Total"
+          },
+          "pagina": {
+            "type": "integer",
+            "title": "Pagina"
+          },
+          "itens": {
+            "items": {
+              "$ref": "#/components/schemas/DoadorResposta"
+            },
+            "type": "array",
+            "title": "Itens"
+          }
+        },
+        "type": "object",
+        "required": [
+          "total",
+          "pagina",
+          "itens"
+        ],
+        "title": "ListaDoadores"
+      },
+      "ListaInstituicoes": {
+        "properties": {
+          "total": {
+            "type": "integer",
+            "title": "Total"
+          },
+          "pagina": {
+            "type": "integer",
+            "title": "Pagina"
+          },
+          "itens": {
+            "items": {
+              "$ref": "#/components/schemas/InstituicaoResposta"
+            },
+            "type": "array",
+            "title": "Itens"
+          }
+        },
+        "type": "object",
+        "required": [
+          "total",
+          "pagina",
+          "itens"
+        ],
+        "title": "ListaInstituicoes"
+      },
+      "ListaReservas": {
+        "properties": {
+          "total": {
+            "type": "integer",
+            "title": "Total"
+          },
+          "pagina": {
+            "type": "integer",
+            "title": "Pagina"
+          },
+          "itens": {
+            "items": {
+              "$ref": "#/components/schemas/ReservaResposta"
+            },
+            "type": "array",
+            "title": "Itens"
+          }
+        },
+        "type": "object",
+        "required": [
+          "total",
+          "pagina",
+          "itens"
+        ],
+        "title": "ListaReservas"
+      },
+      "RelatorioSaida": {
+        "properties": {
+          "id": {
+            "type": "integer",
+            "title": "Id"
+          },
+          "modelo": {
+            "type": "string",
+            "title": "Modelo"
+          },
+          "texto": {
+            "type": "string",
+            "title": "Texto"
+          },
+          "criado_em": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Criado Em"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "modelo",
+          "texto",
+          "criado_em"
+        ],
+        "title": "RelatorioSaida"
+      },
+      "ReservaCriar": {
+        "properties": {
+          "doacao_id": {
+            "type": "integer",
+            "exclusiveMinimum": 0.0,
+            "title": "Doacao Id"
+          },
+          "instituicao_id": {
+            "type": "integer",
+            "exclusiveMinimum": 0.0,
+            "title": "Instituicao Id"
+          },
+          "quantidade": {
+            "type": "number",
+            "exclusiveMinimum": 0.0,
+            "title": "Quantidade"
+          },
+          "observacoes": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 500
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Observacoes"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "doacao_id",
+          "instituicao_id",
+          "quantidade"
+        ],
+        "title": "ReservaCriar"
+      },
+      "ReservaResposta": {
+        "properties": {
+          "id": {
+            "type": "integer",
+            "title": "Id"
+          },
+          "doacao_id": {
+            "type": "integer",
+            "exclusiveMinimum": 0.0,
+            "title": "Doacao Id"
+          },
+          "instituicao_id": {
+            "type": "integer",
+            "exclusiveMinimum": 0.0,
+            "title": "Instituicao Id"
+          },
+          "quantidade": {
+            "type": "number",
+            "exclusiveMinimum": 0.0,
+            "title": "Quantidade"
+          },
+          "status": {
+            "type": "string",
+            "title": "Status"
+          },
+          "observacoes": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Observacoes"
+          },
+          "criado_em": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Criado Em"
+          },
+          "coletado_em": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Coletado Em"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "doacao_id",
+          "instituicao_id",
+          "quantidade",
+          "status",
+          "observacoes",
+          "criado_em",
+          "coletado_em"
+        ],
+        "title": "ReservaResposta"
+      },
+      "TipoArmazenamento": {
+        "type": "string",
+        "enum": [
+          "AMBIENTE",
+          "REFRIGERADO",
+          "CONGELADO"
+        ],
+        "title": "TipoArmazenamento"
+      },
+      "TipoDoador": {
+        "type": "string",
+        "enum": [
+          "RESTAURANTE",
+          "MERCADO",
+          "PADARIA",
+          "HORTIFRUTI",
+          "OUTRO"
+        ],
+        "title": "TipoDoador"
+      },
+      "Unidade": {
+        "type": "string",
+        "enum": [
+          "KG",
+          "LITRO",
+          "UNIDADE",
+          "PORCAO"
+        ],
+        "title": "Unidade"
+      },
+      "ValidationError": {
+        "properties": {
+          "loc": {
+            "items": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "integer"
+                }
+              ]
+            },
+            "type": "array",
+            "title": "Location"
+          },
+          "msg": {
+            "type": "string",
+            "title": "Message"
+          },
+          "type": {
+            "type": "string",
+            "title": "Error Type"
+          },
+          "input": {
+            "title": "Input"
+          },
+          "ctx": {
+            "type": "object",
+            "title": "Context"
+          }
+        },
+        "type": "object",
+        "required": [
+          "loc",
+          "msg",
+          "type"
+        ],
+        "title": "ValidationError"
+      }
+    },
+    "securitySchemes": {
+      "HTTPBearer": {
+        "type": "http",
+        "scheme": "bearer"
+      }
+    }
+  }
+}

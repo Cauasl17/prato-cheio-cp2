@@ -1,0 +1,10 @@
+﻿Status,Tarefa,Responsável sugerido,Critério de aceite
+Concluído,Preservar CRUD e corrigir validações,Leonardo Viana,Testes de validação passam
+Concluído,Revisar banco e integridade,João Paulo Melo,"CHECK, FK e índices configurados"
+Concluído,Implementar frontend e dashboard,Pedro Grigorio,Telas consomem API
+Concluído,Implementar integração Ollama,Cauã da Silva Lima,Serviço e endpoint implementados
+Concluído,Testar regras e concorrência,Cauã da Silva Lima,Suíte automatizada
+Concluído,Atualizar README e Swagger,Leonardo Viana,Documentação disponível
+A validar,Executar geração real da LLM,Cauã da Silva Lima,Modelo baixado e relatório gerado
+A publicar,Publicar GitHub e quadro,João Paulo Melo,Links reais no README
+A validar,Ensaiar apresentação técnica,Todos,Todos explicam fluxo completo

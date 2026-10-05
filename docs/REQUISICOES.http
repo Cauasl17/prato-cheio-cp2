@@ -1,0 +1,37 @@
+@base = http://127.0.0.1:8000
+# Substitua pela chave impressa no terminal, sem publicá-la no GitHub.
+@token = CHAVE_DO_TERMINAL
+
+### Indicadores
+GET {{base}}/dashboard
+Authorization: Bearer {{token}}
+
+### Doações disponíveis
+GET {{base}}/doacoes?apenas_disponiveis=true&pagina=1&limite=10
+Authorization: Bearer {{token}}
+
+### Nova reserva (lote de demonstração 1)
+POST {{base}}/reservas
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{"doacao_id": 1, "instituicao_id": 2, "quantidade": 2}
+
+### Coleta (ajustar ID ao retornado pelo POST)
+PATCH {{base}}/reservas/2/coletar
+Authorization: Bearer {{token}}
+
+### Erro esperado: instituição sem refrigeração no lote 2
+POST {{base}}/reservas
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{"doacao_id": 2, "instituicao_id": 2, "quantidade": 1}
+
+### Status da LLM
+GET {{base}}/ia/status
+Authorization: Bearer {{token}}
+
+### Geração real por LLM
+POST {{base}}/ia/relatorio
+Authorization: Bearer {{token}}
