@@ -1,0 +1,11 @@
+PRATO CHEIO - CP2
+
+Windows: execute INICIAR_WINDOWS.bat.
+Outros sistemas: siga README.md.
+Abra http://127.0.0.1:8000/app e use a chave do terminal.
+
+A LLM exige Ollama + modelo. Instrucoes no README.
+Apresentacao: APRESENTACAO_CP2.pptx.
+Roteiro: docs/ROTEIRO.md.
+Pendencias de entrega: publicar GitHub e Trello/Notion, validar geracao real da LLM.
+Todos os quatro integrantes constam no README e na apresentacao.
