@@ -192,9 +192,9 @@ Resultados e limites de validação: `docs/VALIDACAO.md`.
 `docs/REQUISICOES.http`: requisições principais para VS Code REST Client.
 `TRELLO.md` e `docs/QUADRO_CP2.csv`: organização pronta para transcrever no Trello ou importar no Notion.
 
-### Links externos pendentes
+### Links do projeto
 
 Repositório: https://github.com/Cauasl17/prato-cheio-cp2
 
-O quadro Trello ainda depende de login e publicação na conta do grupo. O nome solicitado é Trello CP.
-Não crie um histórico fictício de desenvolvimento no quadro. Use os estados reais das tarefas.
+Quadro Trello: cadastro e publicação pendentes.
+O planejamento está em `TRELLO.md` e `docs/QUADRO_CP2.csv`.

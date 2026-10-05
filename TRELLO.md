@@ -1,10 +1,9 @@
 # Organização CP2
 
 Planejamento local. Ainda não existe link de quadro publicado.
-Os responsáveis abaixo representam uma distribuição sugerida, sem afirmar autoria individual do código.
+Distribuição sugerida das tarefas para revisão pelo grupo.
 Importe docs/QUADRO_CP2.csv no Notion como tabela e crie uma visualização de quadro por Status,
 ou transcreva as tarefas no Trello. Revise as atribuições com o grupo.
-Não invente datas, comentários nem movimentações históricas.
 
 | Status | Tarefa | Responsável sugerido |
 |---|---|---|
@@ -15,5 +14,5 @@ Não invente datas, comentários nem movimentações históricas.
 | Concluído | Testar regras e concorrência | Cauã da Silva Lima |
 | Concluído | Atualizar README e Swagger | Leonardo Viana |
 | A validar | Executar geração real da LLM | Cauã da Silva Lima |
-| A publicar | Publicar GitHub e quadro | João Paulo Melo |
+| A publicar | Publicar quadro Trello | João Paulo Melo |
 | A validar | Ensaiar apresentação técnica | Todos |
