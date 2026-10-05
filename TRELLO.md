@@ -1,9 +1,9 @@
 # Organização CP2
 
-Planejamento local. Ainda não existe link de quadro publicado.
+Quadro: https://trello.com/b/x4UExcxZ/trello-cp
 Distribuição sugerida das tarefas para revisão pelo grupo.
-Importe docs/QUADRO_CP2.csv no Notion como tabela e crie uma visualização de quadro por Status,
-ou transcreva as tarefas no Trello. Revise as atribuições com o grupo.
+O quadro possui as listas Referências, A validar e Concluído.
+Revise a distribuição de apresentação com o grupo.
 
 | Status | Tarefa | Responsável sugerido |
 |---|---|---|
@@ -14,5 +14,5 @@ ou transcreva as tarefas no Trello. Revise as atribuições com o grupo.
 | Concluído | Testar regras e concorrência | Cauã da Silva Lima |
 | Concluído | Atualizar README e Swagger | Leonardo Viana |
 | A validar | Executar geração real da LLM | Cauã da Silva Lima |
-| A publicar | Publicar quadro Trello | João Paulo Melo |
+| Concluído | Publicar quadro Trello | João Paulo Melo |
 | A validar | Ensaiar apresentação técnica | Todos |
