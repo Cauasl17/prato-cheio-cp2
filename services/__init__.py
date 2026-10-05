@@ -1,0 +1,1 @@
+"""Serviços do Prato Cheio."""
