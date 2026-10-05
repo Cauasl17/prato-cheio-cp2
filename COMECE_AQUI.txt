@@ -8,5 +8,6 @@ A LLM exige Ollama + modelo. Instrucoes no README.
 Apresentacao: APRESENTACAO_CP2.pptx.
 Roteiro: docs/ROTEIRO.md.
 Repositorio: https://github.com/Cauasl17/prato-cheio-cp2
-Antes da entrega: adicionar o link do quadro Trello/Notion e validar a geracao real da LLM.
+Quadro Trello: https://trello.com/b/x4UExcxZ/trello-cp
+Antes da entrega: validar a geracao real da LLM e conferir a interface no navegador.
 Todos os quatro integrantes constam no README e na apresentacao.
