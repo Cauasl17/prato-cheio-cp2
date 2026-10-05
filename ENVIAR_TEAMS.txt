@@ -9,6 +9,7 @@ Pedro Grigorio - RM 570308
 Cauã da Silva Lima - RM 571023
 
 Repositório: https://github.com/Cauasl17/prato-cheio-cp2
+Quadro Trello: https://trello.com/b/x4UExcxZ/trello-cp
 
 O pacote inclui backend FastAPI, interface web, dashboard, banco SQLite,
 documentação Swagger/OpenAPI, testes automatizados, integração com Ollama
@@ -17,8 +18,7 @@ e apresentação do projeto.
 Execução: siga README.md. Apresentação: APRESENTACAO_CP2.pptx.
 
 Antes de anexar no Teams:
-1. Concluir o quadro Trello/Notion e inserir seu link no README.
-2. Demonstrar a geração do relatório com o modelo local.
-3. Conferir a interface no navegador e ensaiar a apresentação com o grupo.
+1. Demonstrar a geração do relatório com o modelo local.
+2. Conferir a interface no navegador e ensaiar a apresentação com o grupo.
 
 Anexe o ZIP na tarefa Checkpoint 2 do Teams e finalize a entrega.
