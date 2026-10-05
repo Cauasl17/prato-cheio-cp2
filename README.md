@@ -190,11 +190,11 @@ Resultados e limites de validação: `docs/VALIDACAO.md`.
 `APRESENTACAO_CP2.pptx`: slides editáveis.
 `docs/ROTEIRO.md`: demonstração e distribuição sugerida entre os integrantes.
 `docs/REQUISICOES.http`: requisições principais para VS Code REST Client.
-`TRELLO.md` e `docs/QUADRO_CP2.csv`: organização pronta para transcrever no Trello ou importar no Notion.
+`TRELLO.md` e `docs/QUADRO_CP2.csv`: registro de organização e tarefas do quadro Trello.
 
 ### Links do projeto
 
 Repositório: https://github.com/Cauasl17/prato-cheio-cp2
 
-Quadro Trello: cadastro e publicação pendentes.
+Quadro Trello: https://trello.com/b/x4UExcxZ/trello-cp
 O planejamento está em `TRELLO.md` e `docs/QUADRO_CP2.csv`.
