@@ -1,1 +1,60 @@
-<!doctype html><html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Prato Cheio</title><link rel="stylesheet" href="/static/style.css"></head><body><aside><h2>Prato Cheio</h2><p>Gestão de doações</p><nav id="nav"><button data-view="dashboard">Visão geral</button><button data-view="doacoes">Doações</button><button data-view="reservas">Reservas</button><button data-view="doadores">Doadores</button><button data-view="instituicoes">Instituições</button><button data-view="ia">Relatórios com IA</button></nav><a href="/docs" target="_blank">Swagger ↗</a><button id="sair">Sair</button><p>Protótipo acadêmico<br>Dados iniciais fictícios</p></aside><main><header><div><small>CHECKPOINT 3</small><h1 id="titulo">Visão geral</h1><p>Acompanhe os alimentos disponíveis e as retiradas.</p></div><button id="atualizar">Atualizar</button></header><div id="feedback" role="status" hidden></div><section id="content"></section></main><dialog id="login"><form id="entrar"><h2>Acesso ao projeto</h2><p>Use a chave fornecida pelo administrador. Na execução local, ela aparece no terminal.</p><label>Chave administrativa<input name="token" type="password" required autocomplete="off"></label><button>Entrar</button><p id="login-erro" role="alert"></p></form></dialog><dialog id="modal"><form id="cadastro"><div class="modal-top"><h2 id="modal-title">Cadastro</h2><button type="button" id="fechar">Fechar</button></div><div id="campos"></div><p id="form-error" role="alert"></p><button id="salvar">Salvar</button></form></dialog><script src="/static/app.js" defer></script></body></html>
+<!doctype html>
+<html lang="pt-BR" data-theme="light">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#203746">
+  <title>Prato Cheio · Gestão de doações</title>
+  <link rel="stylesheet" href="/static/style.css">
+  <script src="/static/theme.js"></script>
+</head>
+<body>
+  <header class="masthead">
+    <a class="identity" href="/app" aria-label="Prato Cheio, início">
+      <span class="brand-mark" aria-hidden="true"><i></i><i></i></span>
+      <strong>PRATO CHEIO</strong><span class="identity-divider"></span><span>GESTÃO DE DOAÇÕES</span>
+    </a>
+    <div class="header-right"><time id="relogio" class="header-clock"></time><button id="tema" data-theme-toggle class="theme-button" type="button" aria-pressed="false">Tema escuro</button></div>
+  </header>
+  <div class="workspace">
+    <aside class="sidebar">
+      <div class="sidebar-title">ÁREA DE TRABALHO</div>
+      <nav id="nav" aria-label="Navegação principal">
+        <button data-view="dashboard" class="active"><span class="nav-number">01</span>Visão geral</button>
+        <button data-view="doacoes"><span class="nav-number">02</span>Doações</button>
+        <button data-view="reservas"><span class="nav-number">03</span>Reservas</button>
+        <button data-view="doadores"><span class="nav-number">04</span>Doadores</button>
+        <button data-view="instituicoes"><span class="nav-number">05</span>Instituições</button>
+        <button data-view="ia"><span class="nav-number">06</span>Relatórios</button>
+      </nav>
+      <div class="sidebar-bottom"><a href="/docs" target="_blank" rel="noopener">Documentação da API <span aria-hidden="true">↗</span></a><button id="sair" type="button">Encerrar acesso</button><p>Ambiente de demonstração<br>Dados de exemplo fictícios</p></div>
+    </aside>
+    <main id="principal">
+      <div class="title-row"><div><div class="breadcrumb">OPERAÇÃO / <span id="secao-atual">VISÃO GERAL</span></div><h1 id="titulo">Visão geral</h1><p id="descricao-pagina">Disponibilidade dos lotes e acompanhamento das retiradas.</p></div><button id="atualizar" class="refresh-button" type="button">Atualizar dados</button></div>
+      <div class="data-status" id="conexao"><span class="connection-dot" aria-hidden="true"></span><strong id="conexao-texto">Aguardando acesso</strong><span id="ultima-atualizacao">Entre para consultar os registros.</span></div>
+      <div id="feedback" role="status" hidden></div>
+      <section id="content" aria-label="Conteúdo da seção"></section>
+      <footer class="workspace-footer"><span>Prato Cheio</span><span>Doações de alimentos · Checkpoint 3</span></footer>
+    </main>
+  </div>
+  <dialog id="login" class="login-dialog" aria-labelledby="login-title">
+    <div class="login-top"><div class="identity"><span class="brand-mark" aria-hidden="true"><i></i><i></i></span><strong>PRATO CHEIO</strong><span class="identity-divider"></span><span>GESTÃO DE DOAÇÕES</span></div><button id="tema-login" data-theme-toggle class="theme-button" type="button" aria-pressed="false">Tema escuro</button></div><div class="login-layout">
+      <section class="login-hero" aria-label="Sobre o sistema">
+        <span class="hero-eyebrow">GESTÃO DE DOAÇÕES DE ALIMENTOS</span><h2>Doações organizadas.<br>Retiradas acompanhadas.</h2>
+        <p>Consulte os alimentos disponíveis, organize as reservas e registre cada coleta em um só lugar.</p>
+        <div class="hero-flow"><div><span>01</span><strong>Doação</strong><p>Cadastro do lote e da validade.</p></div><div><span>02</span><strong>Reserva</strong><p>Quantidade e instituição de destino.</p></div><div><span>03</span><strong>Coleta</strong><p>Registro da retirada e do histórico.</p></div></div>
+        <p class="hero-footnote">Protótipo acadêmico. Os registros iniciais são fictícios.</p>
+      </section>
+      <form id="entrar" class="login-card">
+        <div class="form-eyebrow">ACESSO AO SISTEMA</div><h2 id="login-title">Bem-vindo</h2><p>Informe a chave para acessar seu ambiente de trabalho.</p>
+        <label for="chave">Chave de acesso</label><div class="password-input"><input id="chave" name="token" type="password" required autocomplete="off" spellcheck="false"><button id="mostrar-chave" type="button" aria-controls="chave" aria-pressed="false">Mostrar</button></div>
+        <button id="acessar" type="submit" class="primary">Entrar no sistema <span aria-hidden="true">→</span></button><p id="login-erro" role="alert" hidden></p>
+        <details class="access-help"><summary>Onde encontro a chave?</summary><p>Na versão publicada, solicite ao administrador. O proprietário encontra API_TOKEN em Environment no painel do Render. Na execução local, a chave aparece no terminal de iniciar.py.</p></details>
+        <div class="login-card-footer"><i aria-hidden="true"></i><div>Acesso administrativo<small>A chave fica apenas na memória desta página.</small></div></div>
+      </form>
+    </div>
+  </dialog>
+  <dialog id="modal" class="form-dialog" aria-labelledby="modal-title"><form id="cadastro"><div class="modal-top"><div><span class="form-eyebrow">REGISTRO</span><h2 id="modal-title">Cadastro</h2></div><button type="button" id="fechar">Fechar</button></div><div id="campos"></div><p id="form-error" role="alert"></p><div class="form-actions"><button id="salvar" class="primary">Salvar registro</button></div></form></dialog>
+  <script src="/static/app.js" defer></script>
+</body>
+</html>
