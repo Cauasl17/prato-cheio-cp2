@@ -10,8 +10,8 @@ um registro de autoria individual do código.
    criar reserva válida e registrar coleta. Mostrar o dashboard após atualizar.
 4. Cauã: mostrar os oito cenários e resultados do pytest, fluxo HTTP e evidências Docker.
    Explicar a diferença entre teste simulado de contrato e geração real da LLM.
-5. Mostrar `/health` no ambiente disponível. Somente apresentar deploy como concluído após
-   registrar a URL HTTPS real e executar `scripts/smoke.py` contra ela.
+5. Abrir https://prato-cheio-cp3.onrender.com/health e mostrar o fluxo público registrado
+   em evidencias/deploy-fluxo.json. No Swagger, usar a chave privada configurada no Render.
 6. Explicar assinatura proposta e simulação de custos, deixando explícitas as premissas.
 7. Mostrar Trello e links do repositório. Encerrar com limitações e próximos passos.
 

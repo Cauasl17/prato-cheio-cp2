@@ -9,4 +9,7 @@ Swagger local: http://127.0.0.1:8000/docs
 Integrantes e links: INTEGRANTES_E_LINKS.txt
 Apresentação: APRESENTACAO_CP3.pptx
 Evidências: pasta evidencias
-Deploy: configuração pronta; publicação na hospedagem ainda pendente.
+API publicada: https://prato-cheio-cp3.onrender.com
+Interface publicada: https://prato-cheio-cp3.onrender.com/app
+Swagger publicado: https://prato-cheio-cp3.onrender.com/docs
+Acesso privado: API_TOKEN na seção Environment do painel Render.

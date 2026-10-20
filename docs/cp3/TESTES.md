@@ -47,8 +47,8 @@ A geração real foi aprovada no CI em 20/10/2026: HTTP 200 e histórico confirm
 Evidência: `evidencias/ci/llm-real.json`. O texto produzido contém interpretações imprecisas e
 termina truncado pelo limite de geração; o teste verifica integração e persistência, não a qualidade semântica.
 O smoke HTTP verifica entrega dos arquivos do frontend e o fluxo da API, sem equivaler
-a um teste visual de cliques no navegador. A demonstração no deploy só deve ser registrada
-após existir uma URL publicada e uma execução contra esse endereço.
+a um teste visual de cliques no navegador. O fluxo no deploy HTTPS foi executado e aprovado em 20/10/2026, com 12 requisições.
+Evidência: `evidencias/deploy-fluxo.json`. URL: https://prato-cheio-cp3.onrender.com .
 
 ## Reprodução
 

@@ -11,3 +11,7 @@ LINKS DO PROJETO
 
 GitHub: https://github.com/Cauasl17/prato-cheio-cp2
 Trello: https://trello.com/b/x4UExcxZ/trello-cp
+
+API publicada: https://prato-cheio-cp3.onrender.com
+Interface: https://prato-cheio-cp3.onrender.com/app
+Swagger: https://prato-cheio-cp3.onrender.com/docs

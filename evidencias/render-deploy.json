@@ -1,0 +1,14 @@
+{
+  "provedor": "Render",
+  "plano": "free",
+  "regiao": "virginia",
+  "service_id": "srv-dbbusb3ncjis73fdlau0",
+  "deploy_id": "dep-dbbusbjncjis73fdld60",
+  "status": "live",
+  "url": "https://prato-cheio-cp3.onrender.com",
+  "commit_aplicacao": "b6317d44bc58888ec31be4d26df772ea81a2c5f8",
+  "finished_at": "2026-10-20T22:42:32.163924Z",
+  "http_smoke": "deploy-fluxo.json",
+  "requisicoes_aprovadas": 12,
+  "segredos_incluidos": false
+}

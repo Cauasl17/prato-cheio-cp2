@@ -18,7 +18,10 @@ O CP3 acrescenta testes de aceitação com evidências, validação Docker, conf
 - Trello: https://trello.com/b/x4UExcxZ/trello-cp
 - Testes e Docker: https://github.com/Cauasl17/prato-cheio-cp2/actions
 - Apresentação: [APRESENTACAO_CP3.pptx](APRESENTACAO_CP3.pptx)
-- Endereço do deploy: **pendente de publicação na conta de hospedagem**. Procedimento em [docs/cp3/DEPLOY.md](docs/cp3/DEPLOY.md).
+- API publicada: https://prato-cheio-cp3.onrender.com
+- Interface publicada: https://prato-cheio-cp3.onrender.com/app
+- Swagger publicado: https://prato-cheio-cp3.onrender.com/docs
+- Acesso administrativo e operação: [docs/cp3/DEPLOY.md](docs/cp3/DEPLOY.md).
 
 O nome do repositório preserva a entrega anterior. Os links 127.0.0.1 abaixo são locais;
 o GitHub armazena o código, mas não executa a API permanentemente.
@@ -151,9 +154,10 @@ Para a execução local sem Docker, instalar Ollama, baixar `qwen2.5:0.5b` e man
 
 ## Deploy
 
-`render.yaml` prepara o serviço Docker gratuito de demonstração, com chave gerada pelo provedor,
-porta do ambiente e healthcheck. A URL e o teste do fluxo publicado ainda dependem de autenticação
-na hospedagem. Não há recurso pago contratado nem endereço de deploy presumido.
+API publicada no Render, em serviço Docker gratuito: https://prato-cheio-cp3.onrender.com .
+A chave administrativa fica no ambiente do serviço e deve ser entregue ao avaliador por meio privado.
+A evidência HTTP da publicação está em `evidencias/deploy-fluxo.json`. O auto-deploy está desativado;
+novas versões exigem Manual Deploy no painel. Não há recurso pago contratado.
 O SQLite do plano gratuito é efêmero; para uso contínuo, contratar explicitamente persistência e backup.
 A LLM demanda infraestrutura própria e não acompanha o serviço web gratuito.
 Instruções completas: [docs/cp3/DEPLOY.md](docs/cp3/DEPLOY.md).

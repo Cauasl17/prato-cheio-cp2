@@ -1,59 +1,79 @@
 # Deploy e acesso
 
-## Situação da publicação
+## Serviço publicado
 
-O serviço está preparado para hospedagem por Docker. A publicação em provedor e o endereço HTTPS
-permanecem pendentes de autenticação na conta de hospedagem. GitHub Actions executa validação temporária;
-o endereço do runner não é uma API publicada nem substitui o requisito de deploy.
+- API: https://prato-cheio-cp3.onrender.com
+- Interface: https://prato-cheio-cp3.onrender.com/app
+- Swagger: https://prato-cheio-cp3.onrender.com/docs
+- Saúde: https://prato-cheio-cp3.onrender.com/health
+- Painel do proprietário: https://dashboard.render.com/web/srv-dbbusb3ncjis73fdlau0
 
-## Publicação no Render
+O Render publicou o contêiner Docker no plano gratuito, região Virginia. Deploy
+`dep-dbbusbjncjis73fdld60`, concluído em 20/10/2026, com código do commit
+`b6317d44bc58888ec31be4d26df772ea81a2c5f8`.
+A API responde por HTTPS e usa a porta fornecida pelo provedor.
 
-O arquivo `render.yaml` configura um serviço Docker de demonstração no plano gratuito,
-com `/health` como verificação de disponibilidade, chave administrativa gerada pelo provedor
-e banco SQLite em `/tmp/prato-cheio/prato_cheio.db`.
+## Acesso administrativo
 
-1. Entrar em https://dashboard.render.com e criar um Blueprint a partir de
-   https://github.com/Cauasl17/prato-cheio-cp2 .
-2. Conferir o plano gratuito antes de confirmar a criação. O nome do serviço pode receber um sufixo;
-   usar somente a URL efetivamente fornecida pelo Render.
-3. Aguardar a construção e o deploy. A aplicação usa a variável `PORT` fornecida pela hospedagem.
-4. Conferir `GET /health`, que precisa retornar 200 com `status=ok` e `banco=ok`.
-5. Acessar `/app` ou `/docs`. Obter `API_TOKEN` no painel de variáveis do serviço e fornecê-la
-   apenas ao avaliador por meio privado. Não anexar a chave ao repositório ou ao ZIP público.
-6. Atualizar o campo de endereço do deploy no README com a URL real.
+As operações de negócio exigem Bearer token. O proprietário obtém `API_TOKEN` na seção
+Environment do painel do serviço e fornece a chave ao avaliador por um meio privado.
+Ela não consta no repositório, nos slides nem no ZIP. No Swagger, clicar em Authorize e
+informar essa chave. Na interface, usar o campo de chave administrativa.
+A página inicial, os arquivos da interface, o contrato OpenAPI e `/health` são públicos.
 
-## Verificação após publicar
+## Configurações
 
-Executar primeiro, sem chave:
+| Item | Configuração |
+|---|---|
+| Runtime | Docker, Dockerfile na raiz |
+| Plano | free |
+| Região | Virginia |
+| PORT | Fornecida pelo Render |
+| DATABASE_URL | sqlite:////tmp/prato-cheio/prato_cheio.db |
+| SEED_DEMO | true, apenas em banco vazio |
+| API_TOKEN | Valor aleatório privado, configurado no ambiente |
+| OLLAMA_URL | http://127.0.0.1:11434, sem modelo hospedado |
+| OLLAMA_MODEL | qwen2.5:0.5b |
+| Auto-deploy | Desativado; novas versões exigem deploy manual |
+
+O healthcheck da imagem Docker consulta `/health`. O serviço expõe esse endpoint para
+verificação HTTP; a configuração direta do Render utiliza a verificação padrão do provedor.
+`render.yaml` permanece como alternativa para recriar o ambiente por Blueprint.
+
+## Verificação do fluxo público
+
+Com `API_TOKEN` definido no ambiente do terminal, executar:
 
 ```bash
-python scripts/smoke.py --base-url https://ENDERECO_REAL --output evidencias/deploy-saude.json
+python scripts/smoke.py --base-url https://prato-cheio-cp3.onrender.com --exercise --output evidencias/deploy-fluxo.json
 ```
 
-Para demonstrar cadastro, erro por saldo, reserva, coleta e consulta, definir `API_TOKEN` no
-ambiente do terminal (sem incluí-la no comando ou relatório) e executar:
+O script verifica saúde, interface, contrato, bloqueio sem chave, cadastro de doador e instituição,
+lote, reserva acima do saldo (422), reserva válida, coleta, lote persistido e dashboard.
+Ele cria dados fictícios identificados como demonstração CP3 e registra códigos esperados/obtidos,
+sem salvar credenciais. A evidência da execução está em `evidencias/deploy-fluxo.json`.
 
-```bash
-python scripts/smoke.py --base-url https://ENDERECO_REAL --exercise --output evidencias/deploy-fluxo.json
-```
+## Atualização
 
-O fluxo cria registros fictícios identificados como demonstração CP3, que permanecem no histórico.
-Utilizar somente o ambiente de avaliação, nunca dados de produção.
-O JSON registra rotas e códigos esperados/obtidos, sem credenciais.
+Publicar o código no GitHub, abrir o painel e usar Manual Deploy para a versão desejada.
+Confirmar o estado live, consultar `/health` e repetir o script de verificação.
+Os commits de documentação podem ser posteriores ao commit da imagem publicada, sem alterar
+a versão do código de aplicação que foi validada.
 
 ## Persistência e limites
 
-No plano gratuito proposto, o disco do serviço é efêmero: reinícios/redeploys podem apagar os dados.
-`SEED_DEMO=true` recria dados fictícios somente se o banco estiver vazio. Não usar esse plano para
-histórico operacional real. Para persistência, usar um host com volume durável em `/dados`
-ou contratar explicitamente um disco persistente e apontar `DATABASE_URL` para ele.
-Nenhum recurso pago foi contratado nesta entrega.
+O disco do plano gratuito é efêmero: reinícios/redeploys podem apagar os dados. O provedor também
+pode suspender instâncias gratuitas ociosas, exigindo aguardar a retomada no primeiro acesso.
+`SEED_DEMO=true` recria exemplos somente em banco vazio. Não usar esse ambiente para histórico
+operacional real. Persistência durável exige um volume/serviço adequado e backup.
+Nenhum recurso pago foi contratado.
 
-O Ollama não acompanha o serviço web gratuito. A configuração padrão da hospedagem não oferece LLM:
-`/ia/status` sinaliza indisponibilidade e `/ia/relatorio` retorna 503, sem resposta inventada.
-Para disponibilizar a LLM, será necessário um serviço Ollama acessível por rede privada ou proxy
-HTTPS autenticado, com revisão da configuração de acesso. Não expor a porta 11434 diretamente na internet.
-O Compose local e o CI demonstram essa integração em ambiente isolado.
+O Ollama não acompanha o serviço web gratuito. `/ia/status` sinaliza indisponibilidade e
+`/ia/relatorio` retorna 503 quando não há modelo, sem resposta inventada. A geração real foi
+verificada separadamente no CI e no seu histórico, em `evidencias/ci/llm-real.json`.
+O Compose permite essa integração em ambiente isolado. Para levá-la à hospedagem, será
+necessário um serviço de inferência acessível com controle de acesso. Não expor a porta 11434
+diretamente na internet. O teste de integração não elimina os erros de interpretação da LLM.
 
 ## Fontes técnicas
 
