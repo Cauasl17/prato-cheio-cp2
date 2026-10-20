@@ -1,18 +1,17 @@
-# Conferência dos entregáveis
+# Entregáveis do CP3
 
-| Requisito CP2 | Arquivo ou acesso | Situação |
+| Requisito | Arquivo/evidência | Situação |
 |---|---|---|
-| GitHub atualizado | https://github.com/Cauasl17/prato-cheio-cp2 | Publicado |
-| README | README.md | Incluído |
-| Backend | main.py, routers, crud, schemas, models | Incluído e testado |
-| Frontend | /app e frontend/ | Incluído |
-| Dashboard | /dashboard e visão geral | Incluído |
-| Banco revisado | prato_cheio.db, models.py, docs/BANCO.md | Incluído |
-| Swagger | /docs e docs/openapi.json | Incluído |
-| Testes | tests/ | Incluídos e executados |
-| LLM | services/llm.py e /ia/relatorio | Integração pronta, geração real pendente |
-| Trello/Notion | https://trello.com/b/x4UExcxZ/trello-cp | Publicado |
-| Apresentação | APRESENTACAO_CP2.pptx e docs/ROTEIRO.md | Incluída |
+| Cenários e testes automatizados | tests/, docs/cp3/TESTES.md | 39 testes aprovados |
+| Resultados esperados e obtidos | evidencias/pytest.xml | Oito cenários registrados |
+| Fluxo integrado por HTTP | evidencias/http-smoke.json | 12 requisições aprovadas |
+| Containerização | Dockerfile, compose.yaml e GitHub Actions | Construção e fluxo verificados |
+| Persistência no contêiner | Evidência do CI após docker restart | Verificada |
+| Deploy | render.yaml e docs/cp3/DEPLOY.md | Publicação e URL pendentes de acesso à hospedagem |
+| Monetização | docs/cp3/MONETIZACAO.md | Proposta e simulação incluídas |
+| GitHub e equipe | README.md e INTEGRANTES_E_LINKS.txt | Incluídos |
+| Organização ágil | https://trello.com/b/x4UExcxZ/trello-cp | Atualização CP3 no quadro |
+| Apresentação | APRESENTACAO_CP3.pptx e docs/cp3/ROTEIRO.md | Preparadas |
+| Cliente real | Opcional no enunciado | Não realizado |
 
-O PDF identifica atividade em grupo e data prevista 06/10.
-A tabela é intitulada 30 pontos, mas os critérios listados somam 10,0.
+A ausência do deploy real impede considerar a entrega integralmente concluída.

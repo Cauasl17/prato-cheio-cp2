@@ -1,7 +1,7 @@
-# Prato Cheio - Checkpoint 2
+# Prato Cheio - Checkpoint 3
 
-Aplicação para organizar doações de alimentos entre estabelecimentos e instituições.
-Evolução do backend do CP1, com interface web, dashboard e relatório contextual por LLM.
+Gestão de doações de alimentos: estabelecimentos publicam lotes e instituições reservam e registram retiradas.
+O CP3 acrescenta testes de aceitação com evidências, validação Docker, configuração de deploy e proposta de monetização.
 
 ## Integrantes
 
@@ -12,19 +12,42 @@ Evolução do backend do CP1, com interface web, dashboard e relatório contextu
 | Pedro Grigorio | 570308 |
 | Cauã da Silva Lima | 571023 |
 
-## Problema e solução
+## Links e acesso
 
-A comunicação informal sobre sobras de alimentos dificulta consultar disponibilidade,
-evitar reservas duplicadas e verificar as condições de armazenamento da instituição.
-O doador publica o lote, a instituição reserva uma quantidade e registra a coleta.
-O cancelamento de uma reserva pendente devolve o saldo. Coletas já realizadas permanecem no histórico.
+- GitHub: https://github.com/Cauasl17/prato-cheio-cp2
+- Trello: https://trello.com/b/x4UExcxZ/trello-cp
+- Testes e Docker: https://github.com/Cauasl17/prato-cheio-cp2/actions
+- Apresentação: [APRESENTACAO_CP3.pptx](APRESENTACAO_CP3.pptx)
+- Endereço do deploy: **pendente de publicação na conta de hospedagem**. Procedimento em [docs/cp3/DEPLOY.md](docs/cp3/DEPLOY.md).
 
-Escopo: cadastro de doadores/instituições, lotes, reservas, coleta, indicadores e relatório de prioridade.
-O protótipo não realiza entregas, pagamentos nem avaliação sanitária do alimento.
+O nome do repositório preserva a entrega anterior. Os links 127.0.0.1 abaixo são locais;
+o GitHub armazena o código, mas não executa a API permanentemente.
 
-## Execução local (Python 3.11 ou superior)
+## Arquitetura e funcionalidades
 
-Extraia o ZIP e abra um terminal na pasta que contém `main.py`.
+HTML/CSS/JavaScript servido pelo FastAPI. A interface usa fetch com autenticação Bearer.
+Routers e schemas recebem/validam dados, `crud.py` aplica regras e SQLAlchemy persiste em SQLite.
+Dashboard agrega dados reais do banco. Ollama gera relatório contextual e a aplicação salva a resposta.
+
+```mermaid
+flowchart TD
+  UI[Interface e Swagger] --> API[FastAPI e Pydantic]
+  API --> CRUD[Regras de negócio]
+  CRUD --> DB[(SQLite)]
+  API --> Painel[Dashboard e relatório]
+  Painel --> DB
+  Painel --> LLM[Ollama opcional]
+```
+
+Cadastros de doadores, instituições, lotes e reservas. Coleta e cancelamento verificam saldo,
+validade, cadastro ativo e refrigeração. Cancelar preserva as quantidades já coletadas.
+Listas possuem paginação e filtros. O dashboard separa unidades e alerta sobre validade próxima.
+
+## Execução local
+
+Python 3.11 ou superior. Extrair o ZIP antes de executar os arquivos.
+No Windows, executar `INICIAR_WINDOWS.bat`. O terminal permanece aberto para mostrar falhas.
+Alternativa manual:
 
 ```bash
 python -m venv .venv
@@ -36,165 +59,117 @@ pip install -r requirements.txt
 python iniciar.py
 ```
 
-Abra http://127.0.0.1:8000/app e use a chave de acesso impressa no terminal.
-O inicializador cria `.env` com uma chave aleatória se ele não existir e insere dados de demonstração
-apenas em um banco vazio. Nunca apaga dados existentes. O ZIP inclui um banco SQLite de demonstração.
-Os registros são fictícios e as datas do banco incluído usam 05/10/2026 como referência.
-Se quiser uma demonstração com datas novas, guarde o banco atual e execute `seed.py` com
-`DATABASE_URL` apontando para um novo arquivo vazio. Não exclua um banco com dados de uso real.
+Abrir http://127.0.0.1:8000/app . A chave local aparece no terminal de `iniciar.py`.
+Swagger: http://127.0.0.1:8000/docs . Usar Authorize e informar essa chave.
+Saúde: http://127.0.0.1:8000/health . Resposta esperada: HTTP 200, status e banco iguais a `ok`.
 
-## LLM local
+O inicializador cria configuração privada e dados fictícios apenas em banco vazio.
+O SQLite é criado automaticamente; os scripts não apagam dados existentes.
+O esquema SQL está em `docs/schema.sql`. Evitar bancos de demonstração antigos com lotes vencidos.
+Se o navegador mostrar conexão recusada, conferir o terminal e se o servidor ainda está rodando.
 
-Instale o Ollama de https://ollama.com/download. Em outro terminal:
+## Configuração do ambiente
 
-```bash
-ollama pull qwen2.5:0.5b
-ollama serve
-```
-
-Se o Ollama já estiver em execução, basta baixar o modelo. Na aplicação, abra
-**Relatórios com IA** e clique em **Gerar relatório**. A aplicação salva a resposta no banco.
-O modelo pequeno reduz o requisito de memória, mas pode cometer erros de português ou de interpretação.
-Um modelo maior pode ser configurado em `OLLAMA_MODEL`, após o respectivo download.
-Não há chave de serviço pago na configuração padrão. O download requer internet e o computador executa a inferência.
-
-### Alternativa com Docker
-
-```bash
-docker compose up --build
-```
-
-A primeira execução baixa automaticamente o modelo. Aguarde a conclusão de `ollama-init`.
-Acesse http://127.0.0.1:8000/app e copie a chave administrativa dos logs de `api`.
-O volume `dados` mantém o banco entre reinícios. O volume `modelos` mantém a LLM.
-
-## Configuração
-
-| Variável | Padrão ou finalidade |
+| Variável | Uso |
 |---|---|
-| DATABASE_URL | sqlite:///./prato_cheio.db |
-| API_TOKEN | Chave administrativa obrigatória. `iniciar.py` cria uma chave local aleatória |
-| OLLAMA_URL | http://localhost:11434 |
-| OLLAMA_MODEL | qwen2.5:0.5b |
+| API_TOKEN | Chave administrativa privada. Contêiner exige pelo menos 32 caracteres |
+| DATABASE_URL | SQLite local ou `sqlite:////dados/prato_cheio.db` no contêiner |
+| PORT | Porta HTTP, padrão 8000. A hospedagem pode fornecer outro valor |
+| SEED_DEMO | `true` insere exemplos somente se o banco estiver vazio |
+| OLLAMA_URL | URL interna do Ollama. Local: localhost; Compose: http://ollama:11434 |
+| OLLAMA_MODEL | qwen2.5:0.5b, após download do modelo |
 
-Nunca publique `.env` no GitHub. A chave fica apenas na memória da página e sai ao recarregar.
-A autenticação é administrativa e compartilhada, suficiente para uma demonstração local.
-Permissões por instituição e login individual permanecem fora desta versão.
-O servidor local usa 127.0.0.1. Uma publicação externa requer HTTPS e gestão própria de usuários.
+`.env` e tokens ficam fora do Git e do ZIP. Os logs de contêiner não mostram a chave.
+O acesso é administrativo e compartilhado; não há gestão de usuários por instituição.
 
-## Arquitetura
+## Docker
 
-Frontend em HTML/CSS/JavaScript servido pelo mesmo FastAPI, sem dependência de CDN.
-`fetch` consome os endpoints com Bearer token. Os routers recebem os dados, schemas validam
-as entradas, `crud.py` executa regras e SQLAlchemy persiste os registros.
-`services/dashboard.py` consolida indicadores com SQL e `services/llm.py` chama o Ollama.
+Com Docker Engine/Desktop e Compose instalados:
 
-```mermaid
-flowchart TD
-  UI[Interface web] --> API[FastAPI e validação]
-  API --> CRUD[Regras de negócio]
-  CRUD --> DB[(SQLite)]
-  API --> Painel[Indicadores e relatório]
-  Painel --> DB
-  Painel --> LLM[Ollama]
+```bash
+python scripts/configurar.py
+docker compose build
+docker compose up -d
+docker compose ps
 ```
 
-## Interface e dashboard
+Ler a chave no `.env` local para entrar na aplicação. Para iniciar também a LLM:
 
-Navegação: visão geral, doações, reservas, doadores, instituições e relatórios com IA.
-As telas permitem cadastro e edição. As reservas permitem coleta e cancelamento.
-As listagens têm paginação de dez itens. As doações aceitam filtros de categoria e disponibilidade.
-Erros da API aparecem na interface, e operações concluídas recebem confirmação.
-O dashboard consulta o banco e apresenta lotes disponíveis, reservas pendentes, coletas,
-gráfico de categorias e lotes com validade em até dois dias. O saldo aparece separado por unidade.
-Os IDs de doadores e instituições podem ser consultados nas respectivas telas antes do cadastro de lote/reserva.
+```bash
+docker compose --profile llm up -d
+docker compose logs -f ollama-init
+```
 
-## Banco revisado
+Aguardar o download do modelo antes de gerar relatórios. `dados` mantém o banco e `modelos` mantém o modelo.
+`docker compose down` encerra sem apagar volumes. Comandos detalhados e evidências em
+[docs/cp3/DOCKER.md](docs/cp3/DOCKER.md).
 
-Tabelas: doadores, instituicoes, doacoes, reservas e relatorios_ia.
-As entidades de cadastro são independentes. Doações referenciam o doador, reservas referenciam
-a doação e a instituição. A reserva contém quantidade e situação próprias.
-Nomes, CNPJ e contatos não são repetidos em reservas.
-Chaves estrangeiras ficam ativas no SQLite e exclusões com histórico são bloqueadas.
-Restrições CHECK impedem quantidades negativas e saldo comprometido superior ao total.
-Índices cobrem status/validade/categoria das doações e vínculos de reservas.
-`quantidade_reservada` é um saldo comprometido que inclui reservas pendentes e coletadas:
-é uma redundância controlada para a operação de estoque. A transação atualiza reserva e saldo juntas.
-O documento `docs/BANCO.md` explica a decisão, índices e migração do CP1.
+## Testes e evidências
 
-## Endpoints e Swagger
+```bash
+pip install -r requirements-dev.txt
+python -m pytest --junitxml=evidencias/pytest.xml --cov=crud --cov=security --cov=config --cov=routers --cov=services --cov-report=term-missing --cov-report=xml:evidencias/coverage.xml
+```
 
-Swagger: http://127.0.0.1:8000/docs
-ReDoc: http://127.0.0.1:8000/redoc
-OpenAPI: http://127.0.0.1:8000/openapi.json ou `docs/openapi.json`.
-No Swagger, clique em **Authorize** e informe a chave mostrada por `iniciar.py`.
+Resultado local em 20/10/2026: **39 testes aprovados**, oito cenários com esperado/obtido e
+**80% de cobertura** nos módulos medidos. Os testes usam SQLite temporário separado.
+A verificação por HTTP executou 12 requisições com cadastro, erro de saldo, reserva, coleta e dashboard.
+O CI construiu e iniciou a imagem Docker, repetiu o fluxo e confirmou persistência após reinício.
+Cenários e correções: [docs/cp3/TESTES.md](docs/cp3/TESTES.md). Evidências: `evidencias/`.
+
+Para um serviço já iniciado, com API_TOKEN definido no ambiente do terminal:
+
+```bash
+python scripts/smoke.py --exercise --output evidencias/smoke.json
+```
+
+O script cria dados fictícios de demonstração. Executar em ambiente de avaliação.
+As rotas de saúde, interface e contrato são públicas; operações de negócio exigem a chave.
+
+## API e LLM
 
 | Rotas | Operações |
 |---|---|
-| /doadores e /instituicoes | GET/POST, GET/PUT/DELETE por ID |
-| /doacoes | GET/POST, GET/PUT/DELETE por ID, PATCH /{id}/cancelar |
-| /reservas | GET/POST, GET/DELETE por ID, PATCH /{id}/coletar |
-| /dashboard | GET de indicadores reais do banco |
-| /ia/status | GET de disponibilidade do modelo |
-| /ia/relatorio | POST que chama a LLM e salva o texto |
+| /doadores, /instituicoes | GET/POST e GET/PUT/DELETE por ID |
+| /doacoes | GET/POST, GET/PUT/DELETE por ID e PATCH /{id}/cancelar |
+| /reservas | GET/POST, GET/DELETE por ID e PATCH /{id}/coletar |
+| /dashboard | GET de indicadores do banco |
+| /health | GET de saúde da API e conexão SQL |
+| /ia/status | GET de disponibilidade do Ollama/modelo |
+| /ia/relatorio | POST de geração e persistência |
 | /ia/relatorios | GET dos últimos 20 relatórios |
 
-Listagens: `pagina` >= 1 e `limite` entre 1 e 100.
-Doações: `categoria`, `status` e `apenas_disponiveis`.
-Reservas: `status`, `doacao_id`, `instituicao_id`.
-Doadores: `cidade`, `ativo`. Instituições: `cidade`, `possui_refrigeracao`.
+Listagens aceitam paginação (`pagina` >= 1, `limite` de 1 a 100). Exemplos em `docs/REQUISICOES.http`.
+Falhas de autenticação retornam 401, conflitos 409, dados inválidos 422 e indisponibilidade da LLM 503.
 
-Respostas de erro: `erro`, `status`, e `campos` em falhas de validação.
-Códigos: 200/201/204 para sucesso, 400 para edição vazia, 401 para acesso inválido,
-404 para registro inexistente, 409 para conflito e 422 para dados/regras inválidos.
-A LLM indisponível retorna 503. Nenhum relatório simulado é salvo como geração real.
+Ollama recebe contagens, saldos por unidade e IDs/validades dos lotes urgentes. Não recebe nomes,
+CNPJ, contatos, endereços ou descrição livre. O texto pode conter erros e depende de revisão humana.
+A geração real com Ollama retornou 200 e confirmou o histórico no CI. A evidência está em
+`evidencias/ci/llm-real.json`, separada do teste simulado. A resposta do modelo pequeno apresentou
+interpretações imprecisas e truncamento; ela exige revisão e não deve orientar operações automaticamente.
+Para a execução local sem Docker, instalar Ollama, baixar `qwen2.5:0.5b` e manter o serviço ativo.
 
-## Otimizações
+## Deploy
 
-- Paginação limitada e ordenação por ID para listas estáveis.
-- Filtros e agregações executados no banco.
-- Índices por campos de consulta e relacionamento.
-- Uma requisição de dashboard reúne os indicadores da tela.
-- Reserva usa atualização condicional e transação para impedir uso concorrente do saldo.
-- SQLite serializa mutações de reserva/coleta/cancelamento com `BEGIN IMMEDIATE`.
+`render.yaml` prepara o serviço Docker gratuito de demonstração, com chave gerada pelo provedor,
+porta do ambiente e healthcheck. A URL e o teste do fluxo publicado ainda dependem de autenticação
+na hospedagem. Não há recurso pago contratado nem endereço de deploy presumido.
+O SQLite do plano gratuito é efêmero; para uso contínuo, contratar explicitamente persistência e backup.
+A LLM demanda infraestrutura própria e não acompanha o serviço web gratuito.
+Instruções completas: [docs/cp3/DEPLOY.md](docs/cp3/DEPLOY.md).
 
-Não há benchmark de ganho percentual. A escolha SQLite atende à apresentação local.
-Migração para outro banco requer revisão explícita do controle de concorrência.
-Quantidades usam Float, herdado do CP1, sem garantia de precisão decimal para operações financeiras.
+## Monetização
 
-## LLM aplicada ao projeto
+Hipótese de assinatura de R$ 99 por estabelecimento/mês, com acesso gratuito para instituições recebedoras.
+Cenário de 20 assinaturas: R$ 1.980 de receita, R$ 670 de custos operacionais estimados e
+R$ 1.310 de saldo antes de tributos, taxas e aquisição de clientes. Valores são premissas, sem validação comercial.
+Detalhamento e limitações em [docs/cp3/MONETIZACAO.md](docs/cp3/MONETIZACAO.md).
 
-Modelo/serviço: Qwen2.5 0.5B via Ollama local, POST `/api/generate`, sem streaming.
-Finalidade: resumir estoque e sugerir prioridades de retirada dos lotes próximos do vencimento.
-Entrada: contagens, totais separados por unidade, categorias, IDs, validade e saldo de lotes urgentes.
-Não envia descrição livre, nome, CNPJ, contato nem local de retirada.
-Saída: texto em português apresentado na interface e persistido em `relatorios_ia`.
-O prompt manda usar apenas os dados, separar unidades e não autorizar operações.
-A IA não modifica o estoque. A pessoa confere as recomendações antes de agir.
-Limitações: alucinação, análise incompleta, tempo de geração e dependência do serviço/modelo instalado.
-Consulte `docs/LLM.md` para o contrato e a distinção entre teste simulado e execução real.
+## Organização e demonstração
 
-## Testes
-
-```bash
-python -m pytest -q
-```
-
-Os testes criam um SQLite temporário. Não alteram o banco da apresentação.
-Cobrem fluxo de reserva/coleta, cancelamento, refrigeração, duplicidade, validade,
-integridade, validações, paginação, autenticação, dashboard, concorrência e contrato da LLM.
-Resultados e limites de validação: `docs/VALIDACAO.md`.
-
-## Apresentação e organização
-
-`APRESENTACAO_CP2.pptx`: slides editáveis.
-`docs/ROTEIRO.md`: demonstração e distribuição sugerida entre os integrantes.
-`docs/REQUISICOES.http`: requisições principais para VS Code REST Client.
-`TRELLO.md` e `docs/QUADRO_CP2.csv`: registro de organização e tarefas do quadro Trello.
-
-### Links do projeto
-
-Repositório: https://github.com/Cauasl17/prato-cheio-cp2
-
-Quadro Trello: https://trello.com/b/x4UExcxZ/trello-cp
-O planejamento está em `TRELLO.md` e `docs/QUADRO_CP2.csv`.
+Trello registra os estados atuais das tarefas de CP2 e CP3, com links das evidências.
+Roteiro: [docs/cp3/ROTEIRO.md](docs/cp3/ROTEIRO.md). O teste com cliente é opcional e não foi realizado.
+Todos os integrantes precisam explicar regras, dados, testes e publicação.
+Limites técnicos: SQLite e chave compartilhada atendem ao protótipo, sem isolamento multiempresa,
+controle de perfis ou teste de carga. Quantidades usam Float herdado do CP1. Inspeção visual completa
+da interface e apresentação ao vivo devem ocorrer no ambiente de demonstração.

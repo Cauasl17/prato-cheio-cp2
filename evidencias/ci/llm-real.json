@@ -1,0 +1,11 @@
+{
+  "executado_em": "2026-10-20T22:20:57.227078+00:00",
+  "base_url": "http://127.0.0.1:8000",
+  "http_status": 200,
+  "modelo": "qwen2.5:0.5b",
+  "origem": "ollama",
+  "relatorio_id": 1,
+  "persistencia_confirmada": true,
+  "texto": "Este relatório breve de gestão de doações de alimentos é baseado em dados fornecidos no JSON. Vamos analisar o conteúdo:\n\n1. **Doadores**: 1\n2. **Instituicoes**: 1\n3. **Doações**: 1\n4. **Disponiveis**: 0\n5. **Reservas Pendentes**: 0\n6. **Coletas**: 1\n7. **Por Categoria**: [PANIFICACAO]\n8. **Saldo por Unidade**: []\n9. **Alertas**: []\n10. **Data Referência**: 2026-10-20\n\n### Explicação:\n\n- **Doadores**: 1\n  - Este número representa os indivíduos ou organizações que estão solicitando doações de alimentos.\n  \n- **Instituicoes**: 1\n  - Este número representa as instituições ou organizações que estão solicitando doações de alimentos.\n\n- **Doações**: 1\n  - Este número representa as doações que estão sendo solicitadas.\n\n- **Disponiveis**: 0\n  - Este número representa o número de doações disponíveis para a data fornecida (2026-10-20).\n\n- **Reservas Pendentes**: 0\n  - Este número representa as doações que ainda estão sendo reservadas.\n\n- **Coletas**: 1\n  - Este número representa as doações que estão sendo coletadas.\n\n- **Por Categoria**: [PANIFICACAO]\n  - Este número representa as doações de alimentos categorizadas como \"PANIFICACAO\".\n\n- **Saldo por Unidade**: []\n  - Este número representa o saldo de alimentos por unidade, sem considerar a capacidade de refrigeração.\n\n- **Alertas**: []\n  - Este número representa os alertas ou recomendações que estão sendo feitas.\n\n- **Data Referência**: 2026-10-20\n  - Este número representa a data de referência para o relatório.\n\n### Nota:\n\n- **Recomendações**: O relatório não sugere ações específicas para a data fornecida. Ele apenas registra os dados disponíveis e não faz nenhuma recomendação ou recomendação de ações.\n\n- **Valid",
+  "aviso": "Revise o relatório. A LLM pode errar e não modifica reservas ou estoque."
+}

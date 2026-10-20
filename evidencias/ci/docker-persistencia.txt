@@ -1,0 +1,1 @@
+Após docker restart: lote 1 COLETADA, quantidade_reservada=2. Persistência aprovada.

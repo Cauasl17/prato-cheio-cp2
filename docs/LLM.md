@@ -26,3 +26,8 @@ privacidade, retorno e persistência. Esse teste não executa os pesos da LLM.
 Outro teste garante 503 sem texto inventado quando o serviço falha.
 A geração real depende do Ollama e do download do modelo no computador da apresentação.
 Não há evidência de geração real nesta entrega.
+
+## Validação CP3
+
+Geração real e histórico confirmados no CI em 20/10/2026. Evidência em `evidencias/ci/llm-real.json`.
+A resposta apresentou imprecisões e truncamento; integração verificada não significa recomendação confiável.

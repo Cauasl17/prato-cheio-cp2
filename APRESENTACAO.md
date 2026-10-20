@@ -1,3 +1,4 @@
-# Apresentação do CP2
+# Apresentação do CP3
 
-Use APRESENTACAO_CP2.pptx e docs/ROTEIRO.md.
+Usar APRESENTACAO_CP3.pptx e docs/cp3/ROTEIRO.md.
+A apresentação do CP2 permanece no repositório como histórico.

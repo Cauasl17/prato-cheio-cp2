@@ -1,0 +1,91 @@
+{
+  "executado_em": "2026-10-20T22:19:39.717686+00:00",
+  "base_url": "http://127.0.0.1:8000",
+  "duracao_s": 0.128,
+  "passos": [
+    {
+      "metodo": "GET",
+      "rota": "/health",
+      "esperado": 200,
+      "obtido": 200,
+      "aprovado": true
+    },
+    {
+      "metodo": "GET",
+      "rota": "/app",
+      "esperado": 200,
+      "obtido": 200,
+      "aprovado": true
+    },
+    {
+      "metodo": "GET",
+      "rota": "/openapi.json",
+      "esperado": 200,
+      "obtido": 200,
+      "aprovado": true
+    },
+    {
+      "metodo": "GET",
+      "rota": "/dashboard",
+      "esperado": 401,
+      "obtido": 401,
+      "aprovado": true
+    },
+    {
+      "metodo": "POST",
+      "rota": "/doadores",
+      "esperado": 201,
+      "obtido": 201,
+      "aprovado": true
+    },
+    {
+      "metodo": "POST",
+      "rota": "/instituicoes",
+      "esperado": 201,
+      "obtido": 201,
+      "aprovado": true
+    },
+    {
+      "metodo": "POST",
+      "rota": "/doacoes",
+      "esperado": 201,
+      "obtido": 201,
+      "aprovado": true
+    },
+    {
+      "metodo": "POST",
+      "rota": "/reservas",
+      "esperado": 422,
+      "obtido": 422,
+      "aprovado": true
+    },
+    {
+      "metodo": "POST",
+      "rota": "/reservas",
+      "esperado": 201,
+      "obtido": 201,
+      "aprovado": true
+    },
+    {
+      "metodo": "PATCH",
+      "rota": "/reservas/1/coletar",
+      "esperado": 200,
+      "obtido": 200,
+      "aprovado": true
+    },
+    {
+      "metodo": "GET",
+      "rota": "/doacoes/1",
+      "esperado": 200,
+      "obtido": 200,
+      "aprovado": true
+    },
+    {
+      "metodo": "GET",
+      "rota": "/dashboard",
+      "esperado": 200,
+      "obtido": 200,
+      "aprovado": true
+    }
+  ]
+}

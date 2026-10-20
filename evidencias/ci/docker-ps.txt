@@ -1,0 +1,2 @@
+CONTAINER ID   IMAGE             COMMAND                  CREATED         STATUS                            PORTS                      NAMES
+fb323acb3b2c   prato-cheio:cp3   "python docker_start…"   2 seconds ago   Up 2 seconds (health: starting)   127.0.0.1:8000->8000/tcp   prato-cheio-cp3

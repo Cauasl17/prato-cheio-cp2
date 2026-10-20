@@ -1,0 +1,1 @@
+usuario=appuser estado=running saude=starting

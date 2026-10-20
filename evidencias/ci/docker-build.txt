@@ -1,0 +1,156 @@
+#0 building with "default" instance using docker driver
+
+#1 [internal] load build definition from Dockerfile
+#1 transferring dockerfile: 814B 0.0s done
+#1 DONE 0.0s
+
+#2 [auth] library/python:pull token for registry-1.docker.io
+#2 DONE 0.0s
+
+#3 [internal] load metadata for docker.io/library/python:3.12-slim
+#3 DONE 0.6s
+
+#4 [internal] load .dockerignore
+#4 transferring context: 176B done
+#4 DONE 0.0s
+
+#5 [internal] load build context
+#5 transferring context: 93.19kB done
+#5 DONE 0.0s
+
+#6 [1/8] FROM docker.io/library/python:3.12-slim@sha256:a6e34c598f2467ed0e9a8d349809fcd8b5c603269512df273a0bb1784edc11b1
+#6 resolve docker.io/library/python:3.12-slim@sha256:a6e34c598f2467ed0e9a8d349809fcd8b5c603269512df273a0bb1784edc11b1 done
+#6 sha256:ecc510c1e359bdc007b39802570bb7e4dec7d6ebccf357c3201a74299113e05e 0B / 29.84MB 0.1s
+#6 sha256:75b6a36c64a1cf3520fc4b4aae4739d5caa8a6a05c27835a920a61784c9c32f8 0B / 1.29MB 0.1s
+#6 sha256:6912e23eb44595b44dc6d9882b34f305ad6f6e9667cec70b13e5dbc4f8cd97f4 0B / 12.12MB 0.1s
+#6 sha256:a6e34c598f2467ed0e9a8d349809fcd8b5c603269512df273a0bb1784edc11b1 10.37kB / 10.37kB done
+#6 sha256:2b4f19dae3a777dfc3b76730bda1e82e1f66ab2a2686fa93ca78edbfb4f04ffe 1.75kB / 1.75kB done
+#6 sha256:df18428df8a0f9189c84e7424d214b4c50092af1f9dca5842a00c41c39bda316 5.66kB / 5.66kB done
+#6 sha256:ecc510c1e359bdc007b39802570bb7e4dec7d6ebccf357c3201a74299113e05e 29.84MB / 29.84MB 0.3s
+#6 sha256:75b6a36c64a1cf3520fc4b4aae4739d5caa8a6a05c27835a920a61784c9c32f8 1.29MB / 1.29MB 0.2s done
+#6 sha256:6912e23eb44595b44dc6d9882b34f305ad6f6e9667cec70b13e5dbc4f8cd97f4 9.44MB / 12.12MB 0.3s
+#6 sha256:bbc5a12237474ec0b23b5051260d56d6436a24d70d9cad961adebe7a037ed813 249B / 249B 0.3s
+#6 sha256:6912e23eb44595b44dc6d9882b34f305ad6f6e9667cec70b13e5dbc4f8cd97f4 12.12MB / 12.12MB 0.4s
+#6 sha256:ecc510c1e359bdc007b39802570bb7e4dec7d6ebccf357c3201a74299113e05e 29.84MB / 29.84MB 0.4s done
+#6 sha256:6912e23eb44595b44dc6d9882b34f305ad6f6e9667cec70b13e5dbc4f8cd97f4 12.12MB / 12.12MB 0.4s done
+#6 sha256:bbc5a12237474ec0b23b5051260d56d6436a24d70d9cad961adebe7a037ed813 249B / 249B 0.4s done
+#6 extracting sha256:ecc510c1e359bdc007b39802570bb7e4dec7d6ebccf357c3201a74299113e05e 0.1s
+#6 extracting sha256:ecc510c1e359bdc007b39802570bb7e4dec7d6ebccf357c3201a74299113e05e 0.6s done
+#6 extracting sha256:75b6a36c64a1cf3520fc4b4aae4739d5caa8a6a05c27835a920a61784c9c32f8
+#6 extracting sha256:75b6a36c64a1cf3520fc4b4aae4739d5caa8a6a05c27835a920a61784c9c32f8 0.1s done
+#6 extracting sha256:6912e23eb44595b44dc6d9882b34f305ad6f6e9667cec70b13e5dbc4f8cd97f4
+#6 extracting sha256:6912e23eb44595b44dc6d9882b34f305ad6f6e9667cec70b13e5dbc4f8cd97f4 0.3s done
+#6 extracting sha256:bbc5a12237474ec0b23b5051260d56d6436a24d70d9cad961adebe7a037ed813
+#6 extracting sha256:bbc5a12237474ec0b23b5051260d56d6436a24d70d9cad961adebe7a037ed813 done
+#6 DONE 8.1s
+
+#7 [2/8] WORKDIR /app
+#7 DONE 0.0s
+
+#8 [3/8] COPY requirements.txt .
+#8 DONE 0.0s
+
+#9 [4/8] RUN pip install --no-cache-dir -r requirements.txt     && useradd --uid 10001 --create-home appuser     && mkdir -p /dados && chown appuser:appuser /dados
+#9 0.983 Collecting fastapi==0.142.2 (from -r requirements.txt (line 1))
+#9 1.040   Downloading fastapi-0.142.2-py3-none-any.whl.metadata (27 kB)
+#9 1.075 Collecting uvicorn==0.54.0 (from -r requirements.txt (line 2))
+#9 1.090   Downloading uvicorn-0.54.0-py3-none-any.whl.metadata (6.6 kB)
+#9 1.314 Collecting SQLAlchemy==2.1.3 (from -r requirements.txt (line 3))
+#9 1.332   Downloading sqlalchemy-2.1.3-cp312-cp312-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl.metadata (9.7 kB)
+#9 1.399 Collecting pydantic==2.13.5 (from -r requirements.txt (line 4))
+#9 1.415   Downloading pydantic-2.13.5-py3-none-any.whl.metadata (110 kB)
+#9 1.455 Collecting python-dotenv==1.2.4 (from -r requirements.txt (line 5))
+#9 1.470   Downloading python_dotenv-1.2.4-py3-none-any.whl.metadata (29 kB)
+#9 1.497 Collecting requests==2.34.2 (from -r requirements.txt (line 6))
+#9 1.512   Downloading requests-2.34.2-py3-none-any.whl.metadata (4.8 kB)
+#9 1.534 Collecting httpx==0.28.1 (from httpx[socks]==0.28.1->-r requirements.txt (line 7))
+#9 1.552   Downloading httpx-0.28.1-py3-none-any.whl.metadata (7.1 kB)
+#9 1.571 Collecting email-validator==2.3.0 (from -r requirements.txt (line 8))
+#9 1.587   Downloading email_validator-2.3.0-py3-none-any.whl.metadata (26 kB)
+#9 1.617 Collecting starlette>=0.46.0 (from fastapi==0.142.2->-r requirements.txt (line 1))
+#9 1.633   Downloading starlette-1.9.0-py3-none-any.whl.metadata (6.6 kB)
+#9 1.660 Collecting typing-extensions>=4.8.0 (from fastapi==0.142.2->-r requirements.txt (line 1))
+#9 1.674   Downloading typing_extensions-4.16.0-py3-none-any.whl.metadata (3.3 kB)
+#9 1.692 Collecting typing-inspection>=0.4.2 (from fastapi==0.142.2->-r requirements.txt (line 1))
+#9 1.708   Downloading typing_inspection-0.4.4-py3-none-any.whl.metadata (2.6 kB)
+#9 1.725 Collecting annotated-doc>=0.0.2 (from fastapi==0.142.2->-r requirements.txt (line 1))
+#9 1.741   Downloading annotated_doc-0.0.5-py3-none-any.whl.metadata (6.5 kB)
+#9 1.764 Collecting opentelemetry-api>=1.44.0 (from fastapi==0.142.2->-r requirements.txt (line 1))
+#9 1.780   Downloading opentelemetry_api-1.45.1-py3-none-any.whl.metadata (1.4 kB)
+#9 1.802 Collecting click>=7.0 (from uvicorn==0.54.0->-r requirements.txt (line 2))
+#9 1.817   Downloading click-8.5.0-py3-none-any.whl.metadata (2.6 kB)
+#9 1.835 Collecting h11>=0.8 (from uvicorn==0.54.0->-r requirements.txt (line 2))
+#9 1.851   Downloading h11-0.16.0-py3-none-any.whl.metadata (8.3 kB)
+#9 1.872 Collecting annotated-types>=0.6.0 (from pydantic==2.13.5->-r requirements.txt (line 4))
+#9 1.888   Downloading annotated_types-0.8.0-py3-none-any.whl.metadata (15 kB)
+#9 2.280 Collecting pydantic-core==2.46.5 (from pydantic==2.13.5->-r requirements.txt (line 4))
+#9 2.295   Downloading pydantic_core-2.46.5-cp312-cp312-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (6.6 kB)
+#9 2.373 Collecting charset_normalizer<4,>=2 (from requests==2.34.2->-r requirements.txt (line 6))
+#9 2.388   Downloading charset_normalizer-3.5.2-cp312-cp312-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl.metadata (46 kB)
+#9 2.411 Collecting idna<4,>=2.5 (from requests==2.34.2->-r requirements.txt (line 6))
+#9 2.426   Downloading idna-3.20-py3-none-any.whl.metadata (7.2 kB)
+#9 2.455 Collecting urllib3<3,>=1.26 (from requests==2.34.2->-r requirements.txt (line 6))
+#9 2.471   Downloading urllib3-2.8.0-py3-none-any.whl.metadata (7.4 kB)
+#9 2.495 Collecting certifi>=2023.5.7 (from requests==2.34.2->-r requirements.txt (line 6))
+#9 2.510   Downloading certifi-2026.10.19-py3-none-any.whl.metadata (2.5 kB)
+#9 2.533 Collecting anyio (from httpx==0.28.1->httpx[socks]==0.28.1->-r requirements.txt (line 7))
+#9 2.552   Downloading anyio-4.15.1-py3-none-any.whl.metadata (4.7 kB)
+#9 2.578 Collecting httpcore==1.* (from httpx==0.28.1->httpx[socks]==0.28.1->-r requirements.txt (line 7))
+#9 2.594   Downloading httpcore-1.0.9-py3-none-any.whl.metadata (21 kB)
+#9 2.616 Collecting dnspython>=2.0.0 (from email-validator==2.3.0->-r requirements.txt (line 8))
+#9 2.631   Downloading dnspython-2.9.0-py3-none-any.whl.metadata (5.7 kB)
+#9 2.654 Collecting socksio==1.* (from httpx[socks]==0.28.1->-r requirements.txt (line 7))
+#9 2.670   Downloading socksio-1.0.0-py3-none-any.whl.metadata (6.1 kB)
+#9 2.714 Downloading fastapi-0.142.2-py3-none-any.whl (144 kB)
+#9 2.743 Downloading uvicorn-0.54.0-py3-none-any.whl (87 kB)
+#9 2.760 Downloading sqlalchemy-2.1.3-cp312-cp312-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl (4.7 MB)
+#9 2.845    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 4.7/4.7 MB 62.5 MB/s eta 0:00:00
+#9 2.861 Downloading pydantic-2.13.5-py3-none-any.whl (472 kB)
+#9 2.877 Downloading python_dotenv-1.2.4-py3-none-any.whl (23 kB)
+#9 2.892 Downloading requests-2.34.2-py3-none-any.whl (73 kB)
+#9 2.907 Downloading httpx-0.28.1-py3-none-any.whl (73 kB)
+#9 2.922 Downloading email_validator-2.3.0-py3-none-any.whl (35 kB)
+#9 2.937 Downloading httpcore-1.0.9-py3-none-any.whl (78 kB)
+#9 2.953 Downloading pydantic_core-2.46.5-cp312-cp312-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (2.1 MB)
+#9 2.957    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 2.1/2.1 MB 638.8 MB/s eta 0:00:00
+#9 2.973 Downloading socksio-1.0.0-py3-none-any.whl (12 kB)
+#9 2.989 Downloading annotated_doc-0.0.5-py3-none-any.whl (5.3 kB)
+#9 3.004 Downloading annotated_types-0.8.0-py3-none-any.whl (13 kB)
+#9 3.020 Downloading certifi-2026.10.19-py3-none-any.whl (136 kB)
+#9 3.036 Downloading charset_normalizer-3.5.2-cp312-cp312-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl (257 kB)
+#9 3.052 Downloading click-8.5.0-py3-none-any.whl (125 kB)
+#9 3.067 Downloading dnspython-2.9.0-py3-none-any.whl (354 kB)
+#9 3.083 Downloading h11-0.16.0-py3-none-any.whl (37 kB)
+#9 3.098 Downloading idna-3.20-py3-none-any.whl (69 kB)
+#9 3.114 Downloading opentelemetry_api-1.45.1-py3-none-any.whl (60 kB)
+#9 3.129 Downloading starlette-1.9.0-py3-none-any.whl (80 kB)
+#9 3.145 Downloading anyio-4.15.1-py3-none-any.whl (132 kB)
+#9 3.161 Downloading typing_extensions-4.16.0-py3-none-any.whl (45 kB)
+#9 3.176 Downloading typing_inspection-0.4.4-py3-none-any.whl (14 kB)
+#9 3.192 Downloading urllib3-2.8.0-py3-none-any.whl (135 kB)
+#9 3.236 Installing collected packages: urllib3, typing-extensions, socksio, python-dotenv, idna, h11, dnspython, click, charset_normalizer, certifi, annotated-types, annotated-doc, uvicorn, typing-inspection, SQLAlchemy, requests, pydantic-core, opentelemetry-api, httpcore, email-validator, anyio, starlette, pydantic, httpx, fastapi
+#9 4.958 Successfully installed SQLAlchemy-2.1.3 annotated-doc-0.0.5 annotated-types-0.8.0 anyio-4.15.1 certifi-2026.10.19 charset_normalizer-3.5.2 click-8.5.0 dnspython-2.9.0 email-validator-2.3.0 fastapi-0.142.2 h11-0.16.0 httpcore-1.0.9 httpx-0.28.1 idna-3.20 opentelemetry-api-1.45.1 pydantic-2.13.5 pydantic-core-2.46.5 python-dotenv-1.2.4 requests-2.34.2 socksio-1.0.0 starlette-1.9.0 typing-extensions-4.16.0 typing-inspection-0.4.4 urllib3-2.8.0 uvicorn-0.54.0
+#9 4.958 WARNING: Running pip as the 'root' user can result in broken permissions and conflicting behaviour with the system package manager, possibly rendering your system unusable. It is recommended to use a virtual environment instead: https://pip.pypa.io/warnings/venv. Use the --root-user-action option if you know what you are doing and want to suppress this warning.
+#9 5.038 
+#9 5.038 [notice] A new release of pip is available: 25.0.1 -> 26.2.2
+#9 5.038 [notice] To update, run: pip install --upgrade pip
+#9 DONE 5.4s
+
+#10 [5/8] COPY --chown=appuser:appuser *.py ./
+#10 DONE 0.0s
+
+#11 [6/8] COPY --chown=appuser:appuser routers/ ./routers/
+#11 DONE 0.0s
+
+#12 [7/8] COPY --chown=appuser:appuser services/ ./services/
+#12 DONE 0.0s
+
+#13 [8/8] COPY --chown=appuser:appuser frontend/ ./frontend/
+#13 DONE 0.0s
+
+#14 exporting to image
+#14 exporting layers
+#14 exporting layers 0.6s done
+#14 writing image sha256:a8fe5bc1b3eab979205a493c431d6ebeb2c4c6fc00516a89a82fddd6ae47984c done
+#14 naming to docker.io/library/prato-cheio:cp3 done
+#14 DONE 0.6s

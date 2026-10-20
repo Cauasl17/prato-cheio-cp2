@@ -1,18 +1,13 @@
-# Organização CP2
+# Organização do projeto
 
 Quadro: https://trello.com/b/x4UExcxZ/trello-cp
-Distribuição sugerida das tarefas para revisão pelo grupo.
-O quadro possui as listas Referências, A validar e Concluído.
-Revise a distribuição de apresentação com o grupo.
 
-| Status | Tarefa | Responsável sugerido |
-|---|---|---|
-| Concluído | Preservar CRUD e corrigir validações | Leonardo Viana |
-| Concluído | Revisar banco e integridade | João Paulo Melo |
-| Concluído | Implementar frontend e dashboard | Pedro Grigorio |
-| Concluído | Implementar integração Ollama | Cauã da Silva Lima |
-| Concluído | Testar regras e concorrência | Cauã da Silva Lima |
-| Concluído | Atualizar README e Swagger | Leonardo Viana |
-| A validar | Executar geração real da LLM | Cauã da Silva Lima |
-| Concluído | Publicar quadro Trello | João Paulo Melo |
-| A validar | Ensaiar apresentação técnica | Todos |
+As listas Referências, A validar e Concluído mostram o estado atual dos CPs.
+O CP3 registra testes, Docker/persistência, monetização, apresentação e publicação.
+A geração real da LLM foi verificada no CI e a tarefa correspondente foi concluída.
+Publicação HTTPS, demonstração visual e ensaio do grupo permanecem em A validar.
+
+Evidência da validação: https://github.com/Cauasl17/prato-cheio-cp2/actions/runs/39507208612
+
+Distribuição sugerida para a apresentação: Leonardo explica escopo, João Paulo arquitetura e banco,
+Pedro interface e fluxo, Cauã testes e integração com LLM. Todos devem dominar o fluxo completo.
