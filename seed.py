@@ -9,7 +9,7 @@ from datetime import date, timedelta
 import models
 from database import Base, SessionLocal, engine
 
-# Recria as tabelas do zero
+# Cria apenas as tabelas ausentes
 
 Base.metadata.create_all(bind=engine)
 

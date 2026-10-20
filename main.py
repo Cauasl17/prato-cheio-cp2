@@ -2,7 +2,6 @@
 
 from fastapi import FastAPI, Request
 from fastapi.exceptions import RequestValidationError
-from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse, FileResponse
 from fastapi.staticfiles import StaticFiles
 from pathlib import Path
@@ -30,7 +29,7 @@ app = FastAPI(
         "3. A instituicao faz uma reserva\n"
         "4. Na retirada, a coleta e registrada"
     ),
-    version="2.0.0",
+    version="3.0.0",
 )
 
 for router in (doadores.router, instituicoes.router, doacoes.router, reservas.router, painel.router):
@@ -80,6 +79,18 @@ async def tratar_erro_de_dados(request: Request, exc: RequestValidationError):
 def inicio():
     return {
         "api": "Prato Cheio",
-        "versao": "2.0.0",
+        "versao": "3.0.0",
         "documentacao": "/docs",
     }
+
+
+@app.get("/health", tags=["Operação"], summary="Verificar API e conexão com o banco")
+def health():
+    from sqlalchemy import text
+    from sqlalchemy.exc import SQLAlchemyError
+    try:
+        with engine.connect() as connection:
+            connection.execute(text("SELECT 1"))
+    except SQLAlchemyError:
+        return JSONResponse(status_code=503, content={"status": "indisponivel", "banco": "erro"})
+    return {"status": "ok", "banco": "ok", "versao": "3.0.0"}

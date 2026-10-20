@@ -1,0 +1,39 @@
+============================= test session starts ==============================
+platform linux -- Python 3.12.14, pytest-9.1.1, pluggy-1.7.0
+rootdir: /workspace/scratch/e6d9e3c6244e/cp3-prato-cheio
+configfile: pytest.ini
+testpaths: tests
+plugins: cov-7.1.0, anyio-4.15.1
+collected 39 items
+
+tests/test_api.py ........................                               [ 61%]
+tests/test_cp3.py ...............                                        [100%]
+
+=============================== warnings summary ===============================
+.venv/lib/python3.12/site-packages/fastapi/testclient.py:1
+  /workspace/scratch/e6d9e3c6244e/cp3-prato-cheio/.venv/lib/python3.12/site-packages/fastapi/testclient.py:1: StarletteDeprecationWarning: Using `httpx` with `starlette.testclient` is deprecated; install `httpx2` instead.
+    from starlette.testclient import TestClient as TestClient  # noqa
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+- generated xml file: /workspace/scratch/e6d9e3c6244e/cp3-prato-cheio/evidencias/pytest.xml -
+================================ tests coverage ================================
+_______________ coverage: platform linux, python 3.12.14-final-0 _______________
+
+Name                      Stmts   Miss  Cover   Missing
+-------------------------------------------------------
+config.py                    16      1    94%   15
+crud.py                     271     72    73%   68, 70, 80, 110-123, 144-145, 153-162, 170, 179, 182, 204, 231-232, 245, 259, 263, 276, 285, 291, 297, 322, 328, 334-349, 357, 381-382, 390-401, 407, 424, 428, 462, 488-489, 503, 531, 539
+routers/__init__.py           0      0   100%
+routers/doacoes.py           25      0   100%
+routers/doadores.py          22      1    95%   37
+routers/instituicoes.py      22      3    86%   21-22, 27
+routers/painel.py            40      9    78%   23-31
+routers/reservas.py          22      2    91%   22-23
+security.py                  11      1    91%   10
+services/__init__.py          0      0   100%
+services/dashboard.py        11      0   100%
+services/llm.py              20      1    95%   25
+-------------------------------------------------------
+TOTAL                       460     90    80%
+Coverage XML written to file evidencias/coverage.xml
+======================== 39 passed, 1 warning in 2.63s =========================

@@ -1,18 +1,26 @@
 services:
   api:
     build: .
-    ports: ["127.0.0.1:8000:8000"]
+    ports:
+      - "127.0.0.1:8000:8000"
     environment:
+      API_TOKEN: ${API_TOKEN:?Defina API_TOKEN no arquivo .env}
       DATABASE_URL: sqlite:////dados/prato_cheio.db
-      OLLAMA_URL: http://ollama:11434
-      OLLAMA_MODEL: qwen2.5:0.5b
-    volumes: ["dados:/dados"]
-    depends_on: [ollama]
+      PORT: "8000"
+      SEED_DEMO: ${SEED_DEMO:-true}
+      OLLAMA_URL: ${OLLAMA_URL:-http://ollama:11434}
+      OLLAMA_MODEL: ${OLLAMA_MODEL:-qwen2.5:0.5b}
+    volumes:
+      - dados:/dados
+    restart: unless-stopped
   ollama:
     image: ollama/ollama:latest
-    volumes: ["modelos:/root/.ollama"]
+    profiles: [llm]
+    volumes:
+      - modelos:/root/.ollama
   ollama-init:
     image: ollama/ollama:latest
+    profiles: [llm]
     environment:
       OLLAMA_HOST: http://ollama:11434
     depends_on: [ollama]

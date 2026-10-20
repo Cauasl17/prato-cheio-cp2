@@ -5,3 +5,7 @@ __pycache__/
 .pytest_cache/
 *.db
 *.db-*
+.coverage*
+htmlcov/
+*.log
+output/

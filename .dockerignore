@@ -1,5 +1,17 @@
+.git
+.github
 .env
+.env.*
+!.env.example
 .venv
+venv
 __pycache__
 .pytest_cache
 *.db
+*.db-*
+*.pptx
+*.zip
+.coverage*
+evidencias
+docs
+tests

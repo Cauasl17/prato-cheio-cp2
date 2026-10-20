@@ -1,9 +1,19 @@
+"""Inicialização configurada para contêiner e hospedagem."""
 import os
-import secrets
 import subprocess
 import sys
-os.environ.setdefault("API_TOKEN", secrets.token_urlsafe(32))
-print("Chave administrativa:", os.environ["API_TOKEN"], flush=True)
-subprocess.run([sys.executable,"seed.py"],check=True)
-import uvicorn
-uvicorn.run("main:app",host="0.0.0.0",port=8000)
+from dotenv import load_dotenv
+from config import validar_ambiente
+
+
+def main():
+    load_dotenv()
+    port = validar_ambiente()
+    if os.getenv("SEED_DEMO", "false").lower() == "true":
+        subprocess.run([sys.executable, "seed.py"], check=True)
+    import uvicorn
+    uvicorn.run("main:app", host="0.0.0.0", port=port)
+
+
+if __name__ == "__main__":
+    main()

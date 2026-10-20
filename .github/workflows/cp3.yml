@@ -1,0 +1,61 @@
+name: CP3 - Testes e Docker
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  validar:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: pip
+      - name: Instalar dependências
+        run: pip install -r requirements-dev.txt
+      - name: Testes automatizados e cobertura
+        run: |
+          mkdir -p evidencias/ci
+          python -m pytest --junitxml=evidencias/ci/pytest.xml --cov=crud --cov=security --cov=config --cov=routers --cov=services --cov-report=term-missing --cov-report=xml:evidencias/ci/coverage.xml
+      - name: Construir imagem
+        run: docker build --progress=plain -t prato-cheio:cp3 . > evidencias/ci/docker-build.txt 2>&1
+      - name: Executar contêiner e fluxo principal
+        shell: bash
+        run: |
+          export API_TOKEN="$(python -c 'import secrets; print(secrets.token_urlsafe(32))')"
+          echo "::add-mask::$API_TOKEN"
+          docker run -d --name prato-cheio-cp3 -p 127.0.0.1:8000:8000 -e API_TOKEN -e SEED_DEMO=false -v cp3-dados:/dados prato-cheio:cp3
+          for tentativa in {1..30}; do
+            if curl -fsS http://127.0.0.1:8000/health >/dev/null; then break; fi
+            sleep 2
+          done
+          python scripts/smoke.py --exercise --output evidencias/ci/docker-smoke.json
+          docker ps --filter name=prato-cheio-cp3 > evidencias/ci/docker-ps.txt
+          docker inspect --format='usuario={{.Config.User}} estado={{.State.Status}} saude={{.State.Health.Status}}' prato-cheio-cp3 > evidencias/ci/docker-estado.txt
+          docker restart prato-cheio-cp3
+          for tentativa in {1..30}; do
+            if curl -fsS http://127.0.0.1:8000/health >/dev/null; then break; fi
+            sleep 2
+          done
+          python - <<'PY'
+          import json, os, urllib.request
+          req=urllib.request.Request('http://127.0.0.1:8000/doacoes/1',headers={'Authorization':'Bearer '+os.environ['API_TOKEN']})
+          with urllib.request.urlopen(req) as r:
+              d=json.load(r)
+          assert d['status']=='COLETADA' and d['quantidade_reservada']==2
+          open('evidencias/ci/docker-persistencia.txt','w').write('Após docker restart: lote 1 COLETADA, quantidade_reservada=2. Persistência aprovada.\n')
+          PY
+      - name: Logs e relatórios
+        if: always()
+        run: docker logs prato-cheio-cp3 > evidencias/ci/docker-runtime.txt 2>&1 || true
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: evidencias-cp3
+          path: evidencias/ci/
+          retention-days: 90

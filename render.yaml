@@ -1,0 +1,17 @@
+services:
+  - type: web
+    name: prato-cheio-cp3
+    runtime: docker
+    plan: free
+    healthCheckPath: /health
+    envVars:
+      - key: API_TOKEN
+        generateValue: true
+      - key: DATABASE_URL
+        value: sqlite:////tmp/prato-cheio/prato_cheio.db
+      - key: SEED_DEMO
+        value: "true"
+      - key: OLLAMA_URL
+        sync: false
+      - key: OLLAMA_MODEL
+        value: qwen2.5:0.5b
