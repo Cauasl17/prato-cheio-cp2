@@ -12,6 +12,6 @@ services:
       - key: SEED_DEMO
         value: "true"
       - key: OLLAMA_URL
-        sync: false
+        value: http://127.0.0.1:11434
       - key: OLLAMA_MODEL
         value: qwen2.5:0.5b

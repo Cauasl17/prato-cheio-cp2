@@ -1,0 +1,21 @@
+INFO:     Started server process [8]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+INFO:     Uvicorn running on http://0.0.0.0:18003 (Press CTRL+C to quit)
+INFO:     127.0.0.1:33542 - "GET /health HTTP/1.1" 200 OK
+INFO:     127.0.0.1:33558 - "GET /health HTTP/1.1" 200 OK
+INFO:     127.0.0.1:33566 - "GET /app HTTP/1.1" 200 OK
+INFO:     127.0.0.1:33578 - "GET /openapi.json HTTP/1.1" 200 OK
+INFO:     127.0.0.1:33582 - "GET /dashboard HTTP/1.1" 401 Unauthorized
+INFO:     127.0.0.1:33584 - "POST /doadores HTTP/1.1" 201 Created
+INFO:     127.0.0.1:33592 - "POST /instituicoes HTTP/1.1" 201 Created
+INFO:     127.0.0.1:33600 - "POST /doacoes HTTP/1.1" 201 Created
+INFO:     127.0.0.1:33612 - "POST /reservas HTTP/1.1" 422 Unprocessable Entity
+INFO:     127.0.0.1:33614 - "POST /reservas HTTP/1.1" 201 Created
+INFO:     127.0.0.1:33624 - "PATCH /reservas/1/coletar HTTP/1.1" 200 OK
+INFO:     127.0.0.1:33640 - "GET /doacoes/1 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:33646 - "GET /dashboard HTTP/1.1" 200 OK
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [8]

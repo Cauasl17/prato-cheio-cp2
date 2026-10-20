@@ -29,7 +29,8 @@ jobs:
         run: |
           export API_TOKEN="$(python -c 'import secrets; print(secrets.token_urlsafe(32))')"
           echo "::add-mask::$API_TOKEN"
-          docker run -d --name prato-cheio-cp3 -p 127.0.0.1:8000:8000 -e API_TOKEN -e SEED_DEMO=false -v cp3-dados:/dados prato-cheio:cp3
+          docker network create cp3
+          docker run -d --network cp3 --name prato-cheio-cp3 -p 127.0.0.1:8000:8000 -e API_TOKEN -e SEED_DEMO=false -e OLLAMA_URL=http://ollama:11434 -v cp3-dados:/dados prato-cheio:cp3
           for tentativa in {1..30}; do
             if curl -fsS http://127.0.0.1:8000/health >/dev/null; then break; fi
             sleep 2
@@ -50,6 +51,18 @@ jobs:
           assert d['status']=='COLETADA' and d['quantidade_reservada']==2
           open('evidencias/ci/docker-persistencia.txt','w').write('Após docker restart: lote 1 COLETADA, quantidade_reservada=2. Persistência aprovada.\n')
           PY
+      - name: Geração real com Ollama
+        shell: bash
+        run: |
+          export API_TOKEN="$(docker exec prato-cheio-cp3 python -c 'import os; print(os.environ["API_TOKEN"])')"
+          echo "::add-mask::$API_TOKEN"
+          docker run -d --name ollama --network cp3 ollama/ollama:latest
+          for tentativa in {1..30}; do
+            if docker exec ollama ollama list >/dev/null 2>&1; then break; fi
+            sleep 2
+          done
+          docker exec ollama ollama pull qwen2.5:0.5b > evidencias/ci/ollama-download.txt 2>&1
+          python scripts/verificar_llm.py --output evidencias/ci/llm-real.json
       - name: Logs e relatórios
         if: always()
         run: docker logs prato-cheio-cp3 > evidencias/ci/docker-runtime.txt 2>&1 || true
